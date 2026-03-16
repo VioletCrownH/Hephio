@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PDF Extract - Hephio</title>
+  <meta name="description" content="Extract text to a TXT file, or export pages as PNG/JPEG images. Everything runs locally in your browser.">
+  
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/tool-style.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+</head>
+<body>
+
+  <!-- HEADER (injected by header.js) -->
+
+  <!-- MAIN CONTENT -->
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <!-- Page Header -->
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle" id="pageTitle">PDF Extract</h1>
+        <p class="tool-page-subtitle" id="pageSubtitle">
+          Extract text to a TXT file, or export pages as PNG/JPEG images locally in your browser
+        </p>
+      </div>
+
+      <!-- Upload Section -->
+      <div id="uploadSection">
+        <div class="tool-card">
+          <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload PDF">
+            
+            <!-- Upload Prompt -->
+            <div id="uploadPrompt" class="upload-prompt">
+              <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <div class="upload-text">Drop a PDF here</div>
+              <div class="upload-hint">or click to choose a PDF file</div>
+            </div>
+
+            <input id="fileInput" type="file" style="display: none;" accept="application/pdf" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Workspace Section (shown after file load) -->
+      <div id="workspaceSection" style="display: none; padding-bottom: 3rem;">
+        
+        <!-- File Bar (spans full width) -->
+        <div class="tool-file-bar" style="margin-bottom: 1rem;">
+          <div class="tool-file-bar-left">
+            <div class="tool-file-icon-pt">
+              <span class="pt-symbol">Pe</span>
+            </div>
+            <div class="tool-file-info">
+              <div id="fileName" class="tool-file-name">—</div>
+              <div id="fileMeta" class="tool-file-meta">—</div>
+            </div>
+          </div>
+          <button id="changeFileBtn" class="tool-btn-ghost" type="button">Choose Different File</button>
+        </div>
+
+        <!-- Two-column layout -->
+        <div class="tool-workspace-two-col">
+          
+          <!-- Left: Page selection -->
+          <div class="tool-workspace-left">
+            
+            <div class="tool-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3 class="tool-section-heading" style="margin: 0; text-transform: none;">Page Range</h3>
+                <div style="font-size: 0.875rem; color: #64748b;">
+                  <span id="pagesSummary">—</span>
+                </div>
+              </div>
+
+              <!-- Page Range Input -->
+              <div class="tool-form-group" style="margin-bottom: 1rem;">
+                <input
+                  id="pagesInput"
+                  class="tool-form-input"
+                  type="text"
+                  placeholder="Leave blank for all pages (example: 1-3,5,7-9)"
+                  disabled
+                />
+                <div class="tool-slider-hint" style="margin-top: 0.5rem;">Use commas and ranges. Page numbers start at 1.</div>
+              </div>
+
+              <!-- Quick Fill Buttons -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+                <button id="btnOdd" class="tool-btn-secondary-small" type="button" disabled>Odd pages</button>
+                <button id="btnEven" class="tool-btn-secondary-small" type="button" disabled>Even pages</button>
+                <button id="btnFirst" class="tool-btn-outline-small" type="button" disabled>First page</button>
+                <button id="btnLast" class="tool-btn-outline-small" type="button" disabled>Last page</button>
+              </div>
+
+              <!-- Note -->
+              <p class="tool-slider-hint" style="line-height: 1.5;">
+                Note: Blank page range means <strong>all pages</strong> will be extracted.
+              </p>
+            </div>
+          </div>
+
+          <!-- Right: Settings sidebar -->
+          <div class="tool-workspace-sidebar">
+            <div class="tool-sidebar-card">
+              
+              <!-- Action Mode -->
+              <div style="margin-bottom: 1.5rem;">
+                <div class="tool-sidebar-heading">Action</div>
+                
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  <label class="tool-checkbox-label">
+                    <input type="radio" name="mode" value="text" checked />
+                    <span>Extract text (.txt)</span>
+                  </label>
+                  <label class="tool-checkbox-label">
+                    <input type="radio" name="mode" value="images" />
+                    <span>Export pages as images (PNG/JPEG)</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Image Options (shown only for images mode) -->
+              <div id="imageOptions" class="hidden">
+                
+                <!-- Image Format -->
+                <div style="margin-bottom: 1.5rem;">
+                  <label class="tool-sidebar-heading" for="imgFormat">Image format</label>
+                  <select id="imgFormat" class="tool-form-select" disabled>
+                    <option value="image/png">PNG</option>
+                    <option value="image/jpeg">JPEG</option>
+                  </select>
+                </div>
+
+                <!-- JPEG Quality (shown only for JPEG) -->
+                <div id="jpegQualityWrap" class="hidden" style="margin-bottom: 1.5rem;">
+                  <div class="tool-slider-header">
+                    <label class="tool-sidebar-heading" for="jpegQuality" style="margin: 0;">Quality</label>
+                    <span id="jpegQualityVal" class="tool-slider-value">85%</span>
+                  </div>
+                  <input
+                    id="jpegQuality"
+                    class="tool-slider"
+                    type="range"
+                    min="40"
+                    max="100"
+                    step="1"
+                    value="85"
+                    disabled
+                  />
+                  <span class="tool-slider-hint">Higher quality = larger file size.</span>
+                </div>
+
+                <!-- Render Scale -->
+                <div style="margin-bottom: 1.5rem;">
+                  <label class="tool-sidebar-heading" for="scaleSelect">Render scale</label>
+                  <select id="scaleSelect" class="tool-form-select" disabled>
+                    <option value="1">1.0 (smaller)</option>
+                    <option value="1.5" selected>1.5</option>
+                    <option value="2">2.0 (sharper)</option>
+                  </select>
+                  <span class="tool-slider-hint">Higher scale increases resolution and memory usage.</span>
+                </div>
+
+                <!-- ZIP Toggle -->
+                <div style="margin-bottom: 1.5rem;">
+                  <div class="tool-sidebar-heading">Download</div>
+                  <label class="tool-checkbox-label">
+                    <input id="zipToggle" type="checkbox" />
+                    <span>Download as ZIP</span>
+                  </label>
+                  <span id="zipHint" class="tool-slider-hint" style="display: block; margin-top: 0.5rem;">
+                    ZIP is recommended for multi-page exports.
+                  </span>
+                </div>
+
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="tool-button-stack">
+                <button id="runBtn" class="tool-btn-primary" type="button" disabled>
+                  Extract & Download
+                </button>
+                <button id="clearBtn" class="tool-btn-secondary full-width" type="button" disabled>
+                  Clear
+                </button>
+              </div>
+
+              <!-- Status -->
+              <div id="status" style="margin-top: 1rem;"></div>
+
+              <!-- Note -->
+              <p class="tool-slider-hint" style="margin-top: 1rem; line-height: 1.5;">
+                Note: Everything runs locally in your browser. Nothing is uploaded.
+              </p>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer will be injected by footer.js -->
+
+  <!-- Scripts -->
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="/assets/vendor/zip/jszip.min.js"></script>
+  <script type="module" src="./script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Compare Text - Hephio</title>
+  <meta name="description" content="Compare two blocks of text and highlight differences line by line and word by word. Runs entirely in your browser.">
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/tool-style.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+</head>
+<body>
+
+  <!-- HEADER (injected by header.js) -->
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle">Compare Text</h1>
+        <p class="tool-page-subtitle">Compare two blocks of text and highlight line and word differences</p>
+      </div>
+
+      <div class="tool-card">
+
+        <!-- Controls -->
+        <div class="tool-compare-controls">
+          <div class="tool-compare-options">
+            <label class="tool-checkbox-label">
+              <input id="optIgnoreCase" type="checkbox">
+              <span>Ignore case</span>
+            </label>
+
+            <label class="tool-checkbox-label">
+              <input id="optIgnoreWhitespace" type="checkbox">
+              <span>Ignore whitespace</span>
+            </label>
+
+            <label class="tool-checkbox-label">
+              <input id="optSyncScroll" type="checkbox" checked>
+              <span>Sync scroll</span>
+            </label>
+
+            <label class="tool-checkbox-label">
+              <input id="optCursorLock" type="checkbox">
+              <span>Cursor lock</span>
+            </label>
+          </div>
+
+          <div class="tool-action-group" style="margin-top: 1rem;">
+            <button id="btnCompare" class="tool-btn-primary" type="button">Compare</button>
+            <button id="btnClear" class="tool-btn-secondary" type="button">Clear</button>
+          </div>
+        </div>
+
+        <!-- Input Panes -->
+        <div class="tool-text-panes">
+          <div class="tool-text-pane">
+            <div class="tool-text-pane-header">
+              <span class="tool-text-pane-title">Text A</span>
+              <span class="tool-text-pane-meta" id="metaLeft">0 lines</span>
+            </div>
+            <textarea
+              id="inputLeft"
+              class="tool-textarea"
+              placeholder="Paste original text here..."
+              spellcheck="false"
+            ></textarea>
+          </div>
+
+          <div class="tool-text-pane">
+            <div class="tool-text-pane-header">
+              <span class="tool-text-pane-title">Text B</span>
+              <span class="tool-text-pane-meta" id="metaRight">0 lines</span>
+            </div>
+            <textarea
+              id="inputRight"
+              class="tool-textarea"
+              placeholder="Paste revised text here..."
+              spellcheck="false"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="tool-diff-summary" id="diffSummary">
+          <div class="tool-diff-summary-item">
+            <span class="tool-diff-dot tool-diff-dot-add"></span>
+            <span>Added: <strong id="countAdded">0</strong></span>
+          </div>
+          <div class="tool-diff-summary-item">
+            <span class="tool-diff-dot tool-diff-dot-remove"></span>
+            <span>Removed: <strong id="countRemoved">0</strong></span>
+          </div>
+          <div class="tool-diff-summary-item">
+            <span class="tool-diff-dot tool-diff-dot-change"></span>
+            <span>Changed: <strong id="countChanged">0</strong></span>
+          </div>
+        </div>
+
+        <!-- Diff Output -->
+        <div class="tool-diff-panel">
+          <div class="tool-result-header">
+            <div>
+              <div class="tool-result-title">Unified Diff</div>
+              <div class="tool-result-sub" id="resultSub">Compare two text blocks to see changes</div>
+            </div>
+            <button id="btnCopyDiff" class="tool-btn-ghost-small" type="button">Copy Diff</button>
+          </div>
+
+          <div id="diffOutput" class="tool-diff-output" aria-live="polite"></div>
+
+          <div class="tool-action-row tool-action-row-3">
+            <button id="btnDownloadDiff" class="tool-btn-primary" type="button">Download Diff</button>
+            <button id="btnCopyLeft" class="tool-btn-secondary full-width" type="button">Copy Text A</button>
+            <button id="btnCopyRight" class="tool-btn-secondary full-width" type="button">Copy Text B</button>
+          </div>
+        </div>
+
+        <p class="tool-status-message" id="status" aria-live="polite"></p>
+
+        <p class="tool-metadata-note" style="margin-top: 1rem;">
+          Runs entirely in your browser. Nothing is uploaded.
+        </p>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Merge PDF - Hephio</title>
+  <meta name="description" content="Combine multiple PDF files into a single PDF. Processing happens locally in your browser.">
+  
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/tool-style.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+</head>
+<body>
+
+  <!-- HEADER (injected by header.js) -->
+
+  <!-- MAIN CONTENT -->
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <!-- Page Header -->
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle" id="pageTitle">Merge PDF</h1>
+        <p class="tool-page-subtitle" id="pageSubtitle">
+          Combine multiple PDF files into a single PDF locally in your browser
+        </p>
+      </div>
+
+      <!-- Upload Section -->
+      <div id="uploadSection">
+        <div class="tool-card">
+          <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload PDFs">
+            
+            <!-- Upload Prompt -->
+            <div id="uploadPrompt" class="upload-prompt">
+              <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <div class="upload-text">Drop PDFs here</div>
+              <div class="upload-hint">or click to choose multiple PDF files</div>
+            </div>
+
+            <input id="fileInput" type="file" style="display: none;" accept="application/pdf" multiple />
+          </div>
+        </div>
+      </div>
+
+      <!-- Workspace Section (shown after file load) -->
+      <div id="workspaceSection" style="display: none;">
+        
+        <!-- Summary Bar -->
+        <div class="tool-file-bar" style="margin-bottom: 1rem;">
+          <div class="tool-file-bar-left">
+            <div class="tool-file-icon-pt">
+              <span class="pt-symbol">Pm</span>
+            </div>
+            <div class="tool-file-info">
+              <div id="summaryTitle" class="tool-file-name">—</div>
+              <div id="summaryMeta" class="tool-file-meta">—</div>
+            </div>
+          </div>
+          <button id="addMoreBtn" class="tool-btn-ghost" type="button">Add More Files</button>
+        </div>
+
+        <!-- Files List -->
+        <div class="tool-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3 class="tool-section-heading" style="margin: 0; text-transform: none;">Files</h3>
+            <div id="pagesTotal" style="font-size: 0.875rem; color: #64748b;">—</div>
+          </div>
+
+          <div id="list" class="pdf-merge-list"></div>
+
+          <div id="lockedNote" class="tool-alert-warning" style="display: none; margin-top: 1.5rem;">
+            One or more PDFs appear password-protected or unreadable. Remove them to merge.
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div id="status" style="margin-top: 16px;"></div>
+
+        <!-- Actions -->
+        <div class="tool-action-group">
+          <button id="mergeBtn" class="tool-btn-primary" type="button" disabled>
+            Merge & Download
+          </button>
+          <button id="clearBtn" class="tool-btn-secondary full-width" type="button" disabled>
+            Clear All Files
+          </button>
+        </div>
+
+        <p style="margin-top: 1rem; text-align: center; font-size: 0.875rem; color: #64748b;">
+          Note: Files are processed locally in your browser. Nothing is uploaded.
+        </p>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer will be injected by footer.js -->
+
+  <!-- Scripts -->
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="/assets/vendor/pdf/pdf-lib.umd.min.js"></script>
+  <script src="./script.js"></script>
+
+</body>
+</html>

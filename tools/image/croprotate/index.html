@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Crop & Rotate - Hephio</title>
+  <meta name="description" content="Crop and rotate JPG, PNG, or WebP images. Processing happens locally in your browser.">
+  
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/tool-style.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+</head>
+<body>
+
+  <!-- HEADER (injected by header.js) -->
+
+  <!-- MAIN CONTENT -->
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container tool-container-wide">
+
+      <!-- Page Header -->
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle" id="pageTitle">Crop & Rotate</h1>
+        <p class="tool-page-subtitle" id="pageSubtitle">
+          Crop and rotate JPG, PNG, or WebP. Processing happens locally in your browser
+        </p>
+      </div>
+
+      <!-- Upload Section -->
+      <div id="uploadSection">
+        <div class="tool-card">
+          <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload image">
+            
+            <div id="uploadPrompt" class="upload-prompt">
+              <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <div class="upload-text">Drop an image here</div>
+              <div class="upload-hint">or click to choose a JPG, PNG, or WebP</div>
+            </div>
+
+            <input id="fileInput" type="file" style="display: none;" accept="image/jpeg,image/png,image/webp" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Workspace Section (shown after file load) -->
+      <div id="workspaceSection" class="crop-tool-workspace" style="display: none;">
+        
+        <div class="tool-workspace-two-col crop-tool-two-col">
+          
+          <!-- Left Column -->
+          <div class="tool-workspace-left crop-tool-left">
+            
+            <div class="tool-file-bar crop-tool-file-bar">
+              <div class="tool-file-bar-left">
+                <div class="tool-file-icon">🖼️</div>
+                <div class="tool-file-info">
+                  <div id="fileName" class="tool-file-name">—</div>
+                  <div id="fileMeta" class="tool-file-meta">—</div>
+                </div>
+              </div>
+              <button id="changeFileBtn" class="tool-btn-ghost" type="button">Choose Different File</button>
+            </div>
+
+            <div class="tool-workspace-main crop-tool-preview-panel">
+              <div class="crop-canvas-wrapper">
+                <div id="canvasWrap" class="crop-canvas-wrap">
+                  <canvas id="previewCanvas" class="crop-canvas"></canvas>
+
+                  <div id="cropOverlay" class="crop-overlay" style="display: none;">
+                    <div id="cropBadge" class="crop-badge">0 × 0</div>
+                    
+                    <div class="crop-handle" data-handle="nw"></div>
+                    <div class="crop-handle" data-handle="ne"></div>
+                    <div class="crop-handle" data-handle="sw"></div>
+                    <div class="crop-handle" data-handle="se"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column -->
+          <aside class="tool-workspace-sidebar crop-tool-sidebar">
+            <div class="crop-tool-control-rail">
+
+              <div class="tool-sidebar-card crop-tool-sidebar-card">
+                <h3 class="tool-sidebar-heading">Rotate</h3>
+                <div class="tool-btn-group-2">
+                  <button id="rotLeftBtn" class="tool-btn-secondary" type="button">⟲ Left 90°</button>
+                  <button id="rotRightBtn" class="tool-btn-secondary" type="button">⟳ Right 90°</button>
+                </div>
+              </div>
+
+              <div class="tool-sidebar-card crop-tool-sidebar-card">
+                <h3 class="tool-sidebar-heading">Crop</h3>
+
+                <div class="tool-grid-2">
+                  <div>
+                    <label class="tool-form-label-small" for="cropX">X Position</label>
+                    <input id="cropX" class="tool-form-input-small" type="number" min="0" value="0" />
+                  </div>
+                  <div>
+                    <label class="tool-form-label-small" for="cropY">Y Position</label>
+                    <input id="cropY" class="tool-form-input-small" type="number" min="0" value="0" />
+                  </div>
+                  <div>
+                    <label class="tool-form-label-small" for="cropW">Width (px)</label>
+                    <input id="cropW" class="tool-form-input-small" type="number" min="50" value="0" />
+                  </div>
+                  <div>
+                    <label class="tool-form-label-small" for="cropH">Height (px)</label>
+                    <input id="cropH" class="tool-form-input-small" type="number" min="50" value="0" />
+                  </div>
+                </div>
+
+                <div class="tool-btn-group-2 crop-tool-inline-actions">
+                  <button id="fullBtn" class="tool-btn-outline-small" type="button">Full Image</button>
+                  <button id="resetBtn" class="tool-btn-secondary-small" type="button">Reset</button>
+                </div>
+              </div>
+
+              <div class="tool-sidebar-card crop-tool-sidebar-card">
+                <h3 class="tool-sidebar-heading">Output Format</h3>
+
+                <select id="formatSelect" class="tool-form-select">
+                  <option value="original">Keep original</option>
+                  <option value="jpeg">JPEG</option>
+                  <option value="png">PNG</option>
+                  <option value="webp">WebP</option>
+                </select>
+
+                <div id="qualityWrap" class="hidden crop-tool-quality-wrap">
+                  <div class="crop-tool-quality-header">
+                    <label class="tool-form-label crop-tool-quality-label" for="qualityInput">Quality</label>
+                    <span id="qualityVal" class="crop-tool-quality-value">85%</span>
+                  </div>
+                  <input 
+                    id="qualityInput" 
+                    class="tool-slider" 
+                    type="range" 
+                    min="40" 
+                    max="100" 
+                    step="1" 
+                    value="85" 
+                  />
+                  <p class="tool-slider-hint crop-tool-quality-hint">Higher quality = larger file size</p>
+                </div>
+              </div>
+
+              <div class="crop-tool-action-block">
+                <button id="downloadBtn" class="tool-btn-primary crop-tool-download-btn" type="button">
+                  Crop & Download
+                </button>
+
+                <div id="status" class="crop-tool-status" aria-live="polite"></div>
+              </div>
+
+            </div>
+          </aside>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer will be injected by footer.js -->
+
+  <!-- Scripts -->
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="./script.js"></script>
+
+</body>
+</html>

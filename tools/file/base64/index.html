@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Base64 Encode / Decode - Hephio</title>
+  <meta
+    name="description"
+    content="Encode text or files to Base64, or decode Base64 back to text. Fast and private — everything runs locally in your browser."
+  />
+
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/tool-style.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+</head>
+<body>
+
+  <!-- Header injected by /header.js -->
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <!-- Page Header -->
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle">Base64 Encode / Decode</h1>
+        <p class="tool-page-subtitle">
+          Encode text or files to Base64, or decode Base64 back to text
+        </p>
+      </div>
+
+      <!-- Main Card -->
+      <div class="tool-card">
+
+        <!-- Upload Zone -->
+        <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload file">
+          <div id="uploadPrompt" class="upload-prompt">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div class="upload-text">Drop a file here</div>
+            <div class="upload-hint">or click to choose a file to Base64 encode</div>
+          </div>
+
+          <div id="fileSummary" class="tool-file-preview hidden">
+            <div class="tool-file-icon-b64">
+              <span class="b64-symbol">64</span>
+            </div>
+
+            <div class="tool-file-info">
+              <h2 class="tool-file-name" id="fileName">—</h2>
+              <div class="tool-file-meta">
+                <span><span class="tool-file-meta-label">File size:</span> <span class="tool-file-meta-value" id="fileSize">—</span></span>
+                <span><span class="tool-file-meta-label">Type:</span> <span class="tool-file-meta-value" id="fileType">—</span></span>
+              </div>
+              <a href="#" id="chooseDifferent" class="tool-choose-different">Choose Different File</a>
+            </div>
+          </div>
+
+          <input id="fileInput" type="file" hidden />
+        </div>
+
+        <div class="tool-divider">
+          <span>or</span>
+        </div>
+
+        <!-- Text Input -->
+        <div class="tool-paste-section">
+          <label class="tool-form-label" for="inputText">Paste text or Base64</label>
+          <textarea
+            id="inputText"
+            class="tool-textarea tool-base64-input"
+            placeholder="Paste plain text to encode, or paste Base64 to decode"
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        <!-- Options -->
+        <div class="tool-settings">
+          <div class="tool-form-group">
+            <label class="tool-checkbox-label" for="dataUrlCheckbox">
+              <input id="dataUrlCheckbox" type="checkbox" />
+              <span>Include data URL prefix when encoding a file</span>
+            </label>
+          </div>
+
+          <div class="tool-action-row tool-action-row-3">
+            <button id="encodeTextBtn" class="tool-btn-primary" type="button">Encode Text</button>
+            <button id="decodeTextBtn" class="tool-btn-secondary" type="button">Decode Base64</button>
+            <button id="encodeFileBtn" class="tool-btn-secondary" type="button">Encode File</button>
+          </div>
+
+          <div id="status" class="tool-status-message"></div>
+        </div>
+
+        <!-- Output -->
+        <div id="resultSection" class="tool-result-panel hidden">
+          <div class="tool-result-header">
+            <div>
+              <div class="tool-result-title">Output</div>
+              <div class="tool-result-sub" id="outputMeta">0 characters</div>
+            </div>
+          </div>
+
+          <textarea
+            id="outputText"
+            class="tool-textarea tool-base64-output"
+            readonly
+            spellcheck="false"
+            placeholder="Your result will appear here"
+          ></textarea>
+
+          <div class="tool-action-row tool-action-row-3">
+            <button id="copyBtn" class="tool-btn-primary" type="button">Copy Output</button>
+            <button id="downloadBtn" class="tool-btn-secondary" type="button">Download .txt</button>
+            <button id="clearBtn" class="tool-btn-secondary" type="button">Clear</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer injected by /footer.js -->
+
+  <!-- Scripts -->
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

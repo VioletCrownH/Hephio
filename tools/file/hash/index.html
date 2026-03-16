@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>File Hash Generator - Hephio</title>
+  <meta
+    name="description"
+    content="Generate MD5, SHA-1, SHA-256, SHA-384, SHA-512, CRC32, BLAKE2b, and xxHash64 hashes from text or files. Fast and private — everything runs locally in your browser."
+  />
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/tool-style.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+</head>
+<body>
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle">File Hash Generator</h1>
+        <p class="tool-page-subtitle">
+          Generate MD5, SHA-1, SHA-256, SHA-384, SHA-512, CRC32, BLAKE2b, and xxHash64 hashes from text or files
+        </p>
+      </div>
+
+      <div class="tool-card">
+
+        <!-- Upload Zone -->
+        <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload file">
+          <div id="uploadPrompt" class="upload-prompt">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div class="upload-text">Drop a file here</div>
+            <div class="upload-hint">or click to choose a file to hash</div>
+          </div>
+
+          <div id="fileSummary" class="tool-file-preview hidden">
+            <div class="tool-file-icon-hash">
+              <span class="hash-symbol">#</span>
+            </div>
+
+            <div class="tool-file-info">
+              <h2 class="tool-file-name" id="fileName">—</h2>
+              <div class="tool-file-meta">
+                <span><span class="tool-file-meta-label">File size:</span> <span class="tool-file-meta-value" id="fileSize">—</span></span>
+                <span><span class="tool-file-meta-label">Type:</span> <span class="tool-file-meta-value" id="fileType">—</span></span>
+              </div>
+              <a href="#" id="chooseDifferent" class="tool-choose-different">Choose Different File</a>
+            </div>
+          </div>
+
+          <input id="fileInput" type="file" hidden />
+        </div>
+
+        <div class="tool-divider">
+          <span>or</span>
+        </div>
+
+        <!-- Text input -->
+        <div class="tool-paste-section">
+          <label class="tool-form-label" for="inputText">Paste text to hash</label>
+          <textarea
+            id="inputText"
+            class="tool-textarea tool-hash-input"
+            placeholder="Paste text here if you want to hash text instead of a file"
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        <!-- Options -->
+        <div class="tool-settings">
+          <div class="tool-sort-grid tool-hash-grid">
+            <div class="tool-sort-card tool-hash-algo-card">
+              <label class="tool-form-label" for="algorithmSelect">Algorithm</label>
+              <select id="algorithmSelect" class="tool-form-select">
+                <option value="MD5">MD5</option>
+                <option value="SHA-1">SHA-1</option>
+                <option value="SHA-256" selected>SHA-256</option>
+                <option value="SHA-384">SHA-384</option>
+                <option value="SHA-512">SHA-512</option>
+                <option value="CRC32">CRC32</option>
+                <option value="BLAKE2b">BLAKE2b</option>
+                <option value="xxHash64">xxHash64</option>
+              </select>
+            </div>
+
+            <div class="tool-sort-card tool-hash-all-card">
+              <label class="tool-checkbox-label" for="allHashesCheckbox">
+                <input id="allHashesCheckbox" type="checkbox" />
+                <span>Generate all common hashes</span>
+              </label>
+              <p class="tool-slider-hint tool-hash-hint">
+                Generate all hash types instead of just the selected one.
+              </p>
+            </div>
+          </div>
+
+          <div class="tool-action-row tool-action-row-hash">
+            <button id="generateBtn" class="tool-btn-primary" type="button">Generate Hash</button>
+            <button id="clearBtn" class="tool-btn-secondary" type="button">Clear</button>
+          </div>
+
+          <div id="status" class="tool-status-message"></div>
+
+          <div id="progressWrap" class="tool-progress-wrap hidden" aria-hidden="true">
+            <div class="tool-progress-header">
+              <span id="progressLabel" class="tool-progress-label">Hashing…</span>
+              <span id="progressPercent" class="tool-progress-percent">0%</span>
+            </div>
+            <div class="tool-progress-track">
+              <div id="progressBar" class="tool-progress-bar"></div>
+            </div>
+          </div>
+
+          <p class="tool-metadata-note">
+            If both a file and text are present, the uploaded file is used. Clear the file to hash the pasted text instead.
+          </p>
+        </div>
+
+        <!-- Results -->
+        <div id="resultSection" class="tool-result-panel hidden">
+          <div class="tool-result-header">
+            <div>
+              <div class="tool-result-title">Results</div>
+              <div class="tool-result-sub" id="resultMeta">—</div>
+            </div>
+          </div>
+
+          <div id="resultList" class="tool-hash-results"></div>
+
+          <div class="tool-action-row tool-action-row-hash">
+            <button id="copyAllBtn" class="tool-btn-primary" type="button">Copy All</button>
+            <button id="downloadBtn" class="tool-btn-secondary" type="button">Download .txt</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

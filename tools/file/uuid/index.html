@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>UUID Generator</title>
+  <meta
+    name="description"
+    content="Generate UUID v4 identifiers directly in your browser."
+  />
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/tool-style.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+</head>
+<body>
+
+<main class="tool-main has-extra-space" id="toolMain">
+  <div class="tool-container">
+
+    <div class="tool-page-header">
+      <h1 class="tool-page-title with-subtitle">UUID Generator</h1>
+      <p class="tool-page-subtitle">
+        Generate UUID v4 identifiers directly in your browser
+      </p>
+    </div>
+
+    <div class="tool-card">
+
+      <div class="tool-uuid-controls">
+        <div class="tool-uuid-control-card">
+          <label class="tool-form-label" for="quantityInput">Quantity</label>
+          <input
+            id="quantityInput"
+            class="tool-form-input"
+            type="number"
+            min="1"
+            max="500"
+            value="10"
+            inputmode="numeric"
+          />
+          <p class="tool-uuid-hint">Generate between 1 and 500 UUIDs at a time.</p>
+        </div>
+
+        <div class="tool-uuid-generate-wrap">
+          <button id="generateBtn" class="tool-btn-primary" type="button">
+            Generate UUIDs
+          </button>
+        </div>
+      </div>
+
+      <div class="tool-result-panel">
+
+        <div class="tool-result-header">
+          <div>
+            <div class="tool-result-title">Generated UUIDs</div>
+            <div class="tool-result-sub" id="resultMeta">0 UUIDs</div>
+          </div>
+        </div>
+
+        <div id="emptyState" class="tool-uuid-empty">
+          Your generated UUIDs will appear here.
+        </div>
+
+        <div id="uuidList" class="tool-uuid-list hidden"></div>
+
+        <div class="tool-action-row tool-action-row-uuid">
+          <button id="copyAllBtn" class="tool-btn-secondary" type="button" disabled>
+            Copy All
+          </button>
+
+          <button id="downloadBtn" class="tool-btn-secondary" type="button" disabled>
+            Download .txt
+          </button>
+
+          <button id="clearBtn" class="tool-btn-secondary" type="button" disabled>
+            Clear
+          </button>
+        </div>
+
+        <div id="status" class="tool-status-message"></div>
+
+        <p class="tool-metadata-note">
+          Uses your browser’s built-in cryptographic random UUID generator. No data leaves your device
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<script src="/analytics.js"></script>
+<script src="/favicon.js"></script>
+<script src="/header.js"></script>
+<script src="/footer.js"></script>
+<script src="/tool-layout.js"></script>
+<script src="./script.js"></script>
+
+</body>
+</html>

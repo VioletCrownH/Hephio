@@ -1,0 +1,417 @@
+/* ============================================
+   HEPHIO DESIGN SYSTEM - Main Stylesheet
+   ============================================ */
+
+/* CSS Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #0f172a;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid #d6dee8;
+  min-height: 84px;
+  transition: min-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header.header-scrolled {
+  min-height: 60px;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+  width: 100%;
+  min-height: 84px;
+  transition: min-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-scrolled .header-container {
+  min-height: 60px;
+}
+
+/* Navigation */
+.header-nav {
+  display: flex;
+  gap: 0.25rem;
+  position: absolute;
+  left: calc(1rem + 3rem);
+  top: 15px;
+  z-index: 1;
+}
+
+.nav-item {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+  font-family: inherit;
+}
+
+.nav-item:hover:not(.nav-item-disabled) {
+  color: #2563eb;
+}
+
+.nav-item-active {
+  color: #2563eb;
+}
+
+.nav-item-disabled {
+  color: #cbd5e1;
+  cursor: not-allowed;
+}
+
+/* Dropdown Menus */
+.nav-dropdown {
+  position: absolute;
+  top: 50px;
+  background: white;
+  border: 1px solid #d6dee8;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.10);
+  padding: 0.25rem;
+  min-width: 160px;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+
+.nav-dropdown-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #334155;
+  text-decoration: none;
+  border-radius: 0.375rem;
+  transition: background 0.15s ease;
+}
+
+.dropdown-item:hover {
+  background: #f3f6fa;
+}
+
+/* Logo */
+.header-logo {
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.logo-text {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #111;
+  line-height: 1;
+  transition: font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-scrolled .logo-text {
+  font-size: 1.5rem;
+}
+
+.logo-dot {
+  color: #2563eb;
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+
+.main-content {
+  min-height: calc(100vh - 200px);
+  background: linear-gradient(180deg, #e3eaf2 0%, #d9e2ec 100%);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hero-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.hero-description {
+  font-size: 1.125rem;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Featured Tools Section */
+.featured-section {
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #0f172a;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ============================================
+   PERIODIC TABLE ELEMENT CARDS
+   ============================================ */
+
+.element-card {
+  display: block;
+  padding: 1.5rem;
+  background: white;
+  border: 2px solid #d6dee8;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  color: #0f172a;
+  transition: all 0.25s ease;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.element-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+}
+
+/* Classification (top left) */
+.element-classification {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  opacity: 0.4;
+}
+
+/* Element Number (top right) */
+.element-number {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.5;
+}
+
+/* Element Symbol (HUGE, centered) */
+.element-symbol {
+  font-size: 4.5rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  margin-bottom: 0.75rem;
+  line-height: 1;
+  margin-top: 0.5rem;
+}
+
+/* Element Name (combined category + name) */
+.element-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+/* Element Description */
+.element-description {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Coming Soon Badge */
+.element-badge {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 0.25rem;
+  font-weight: 600;
+}
+
+/* Disabled State */
+.element-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================
+   CATEGORY COLORS (Periodic Table Groups)
+   ============================================ */
+
+/* Image Tools - Blue */
+.element-image {
+  border-color: #3b82f6;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+}
+
+.element-image .element-symbol {
+  color: #2563eb;
+}
+
+.element-image .element-classification {
+  color: #1d4ed8;
+}
+
+.element-image:hover {
+  border-color: #2563eb;
+  box-shadow: 0 14px 32px rgba(37, 99, 235, 0.18);
+}
+
+/* PDF Tools - Orange/Red */
+.element-pdf {
+  border-color: #f97316;
+  background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+}
+
+.element-pdf .element-symbol {
+  color: #ea580c;
+}
+
+.element-pdf .element-classification {
+  color: #c2410c;
+}
+
+.element-pdf:hover {
+  border-color: #ea580c;
+  box-shadow: 0 14px 32px rgba(234, 88, 12, 0.18);
+}
+
+/* Text Tools - Green */
+.element-text {
+  border-color: #10b981;
+  background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
+}
+
+.element-text .element-symbol {
+  color: #059669;
+}
+
+.element-text .element-classification {
+  color: #047857;
+}
+
+.element-text:hover {
+  border-color: #059669;
+  box-shadow: 0 14px 32px rgba(5, 150, 105, 0.18);
+}
+
+/* File Tools - Purple */
+.element-file {
+  border-color: #8b5cf6;
+  background: linear-gradient(135deg, #faf5ff 0%, #e9d5ff 100%);
+}
+
+.element-file .element-symbol {
+  color: #7c3aed;
+}
+
+.element-file .element-classification {
+  color: #6d28d9;
+}
+
+.element-file:hover {
+  border-color: #7c3aed;
+  box-shadow: 0 14px 32px rgba(124, 58, 237, 0.18);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .header-nav {
+    left: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-dropdown {
+    left: 1rem;
+  }
+
+  .logo-text {
+    font-size: 1.5rem;
+  }
+
+  .header-scrolled .logo-text {
+    font-size: 1.125rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .element-symbol {
+    font-size: 3.5rem;
+  }
+}

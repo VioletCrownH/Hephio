@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Word & Character Counter (Text Counter) - Hephio</title>
+  <meta name="description" content="Accurately count characters, words, lines, sentences, and paragraphs in your text. Upload a .txt file or paste text and see estimated reading time instantly. Runs entirely in your browser.">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/tool-style.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+</head>
+<body>
+
+  <!-- HEADER (injected by header.js) -->
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <!-- Page Header -->
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle">Word &amp; Character Counter</h1>
+        <p class="tool-page-subtitle">Accurately count characters, words, and paragraphs, and calculate estimated reading time</p>
+      </div>
+
+      <!-- Main Card -->
+      <div class="tool-card">
+
+        <!-- Upload Zone -->
+        <div id="uploadZone" class="tool-upload-zone">
+          <input type="file" id="fileInput" accept=".txt,text/plain" style="display: none;">
+
+          <div id="uploadPrompt" class="upload-prompt">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+            </svg>
+            <p class="upload-text">Click to upload or drag a text file</p>
+            <p class="upload-hint">Supports .txt files</p>
+          </div>
+
+          <!-- File Preview (hidden by default) -->
+          <div id="filePreview" class="tool-file-preview hidden" aria-live="polite">
+            <div class="tool-file-thumb" aria-hidden="true">
+              <svg class="tool-file-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+              </svg>
+            </div>
+            <div class="tool-file-info">
+              <p class="tool-file-name" id="fileName">filename.txt</p>
+              <div class="tool-file-meta">
+                <span><span class="tool-file-meta-label">Size:</span> <span id="fileSize" class="tool-file-meta-value">—</span></span>
+                <span><span class="tool-file-meta-label">Characters:</span> <span id="charCount" class="tool-file-meta-value">—</span></span>
+              </div>
+              <a href="#" id="chooseDifferent" class="tool-choose-different">Choose different file</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- OR Divider -->
+        <div id="orDivider" class="tool-divider">
+          <span>OR</span>
+        </div>
+
+        <!-- Paste Text Section -->
+        <div id="pasteSection" class="tool-paste-section">
+          <textarea
+            id="textInput"
+            class="tool-paste-input"
+            placeholder="Paste text here..."
+            rows="8"
+            spellcheck="false"
+          ></textarea>
+
+          <!-- Tiny live counter -->
+          <div class="tool-text-mini-counter" id="miniCounter">
+            0 words | 0 characters
+          </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="tool-stats-grid" aria-label="Text statistics">
+          <div class="tool-stats-column">
+            <div class="tool-stat-row">
+              <span class="tool-stat-row-label">Words</span>
+              <span class="tool-stat-row-value" id="statWords">0</span>
+            </div>
+            <div class="tool-stat-row">
+              <span class="tool-stat-row-label">Characters</span>
+              <span class="tool-stat-row-value" id="statChars">0</span>
+            </div>
+            <div class="tool-stat-row">
+              <span class="tool-stat-row-label">Characters (no spaces)</span>
+              <span class="tool-stat-row-value" id="statCharsNoSpaces">0</span>
+            </div>
+            <div class="tool-stat-row">
+              <span class="tool-stat-row-label">Sentences</span>
+              <span class="tool-stat-row-value" id="statSentences">0</span>
+            </div>
+            <div class="tool-stat-row">
+              <span class="tool-stat-row-label">Paragraphs</span>
+              <span class="tool-stat-row-value" id="statParagraphs">0</span>
+            </div>
+          </div>
+
+          <div class="tool-stats-column">
+            <div class="tool-stat-row">
+              <span class="tool-stat-row-label">Lines</span>
+              <span class="tool-stat-row-value" id="statLines">0</span>
+            </div>
+            <div class="tool-stat-row">
+              <span class="tool-stat-row-label">Non-empty lines</span>
+              <span class="tool-stat-row-value" id="statNonEmptyLines">0</span>
+            </div>
+            <div class="tool-stat-row">
+              <span class="tool-stat-row-label">Avg word length</span>
+              <span class="tool-stat-row-value" id="statAvgWordLen">0.0</span>
+            </div>
+            <div class="tool-stat-row">
+              <span class="tool-stat-row-label">Reading time (225 wpm)</span>
+              <span class="tool-stat-row-value" id="statReadTime">0 min</span>
+            </div>
+            <div class="tool-stat-row">
+              <span class="tool-stat-row-label">Speaking time (150 wpm)</span>
+              <span class="tool-stat-row-value" id="statSpeakTime">0 min</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="tool-action-row tool-action-row-2">
+          <button id="btnCopySummary" class="tool-btn-primary" type="button">Copy Summary</button>
+          <button id="btnDownloadSummary" class="tool-btn-secondary full-width" type="button">Download Summary</button>
+          <button id="btnClear" class="tool-btn-secondary full-width" type="button">Clear</button>
+        </div>
+
+        <p class="tool-status-message" id="status" aria-live="polite"></p>
+
+        <p class="tool-metadata-note" style="margin-top: 1rem;">
+          Your text is processed entirely in your browser. Nothing is uploaded.
+        </p>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer will be injected by footer.js -->
+
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

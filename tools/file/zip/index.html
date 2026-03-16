@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Create ZIP - Hephio</title>
+  <meta
+    name="description"
+    content="Combine multiple files into a single ZIP archive directly in your browser. Fast and private with no uploads required."
+  />
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/tool-style.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+</head>
+<body>
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle">Create ZIP</h1>
+        <p class="tool-page-subtitle">
+          Combine multiple files into a single ZIP archive directly in your browser
+        </p>
+      </div>
+
+      <div class="tool-card">
+
+        <!-- Upload Zone -->
+        <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload files">
+          <div id="uploadPrompt" class="upload-prompt">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div id="uploadText" class="upload-text">Drop files here</div>
+            <div id="uploadHint" class="upload-hint">or click to choose files to include in a ZIP</div>
+          </div>
+
+          <input id="fileInput" type="file" hidden multiple />
+        </div>
+
+        <!-- File List -->
+        <div id="fileListSection" class="tool-result-section hidden">
+          <div class="tool-result-header">
+            <div>
+              <div class="tool-result-title">Files</div>
+              <div class="tool-result-sub" id="fileListSummary">0 files</div>
+            </div>
+            <button id="addMoreBtn" class="tool-btn-ghost-small" type="button">Add More</button>
+          </div>
+
+          <div id="fileList" class="tool-zip-list"></div>
+        </div>
+
+        <!-- Actions -->
+        <div id="actionArea" class="tool-settings hidden">
+          <div class="tool-action-row tool-action-row-hash">
+            <button id="createZipBtn" class="tool-btn-primary" type="button">Create ZIP</button>
+            <button id="clearBtn" class="tool-btn-secondary" type="button">Clear</button>
+          </div>
+
+          <div id="status" class="tool-status-message"></div>
+
+          <p class="tool-metadata-note">
+            Files are added using their current file names. If duplicate names are uploaded, Hephio will rename later copies automatically.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script type="module" src="./script.js"></script>
+</body>
+</html>

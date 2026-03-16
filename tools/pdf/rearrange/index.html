@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Rearrange PDF - Hephio</title>
+  <meta name="description" content="Reorder pages and download an updated PDF. Everything runs locally in your browser.">
+  
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/tool-style.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+</head>
+<body>
+
+  <!-- HEADER (injected by header.js) -->
+
+  <!-- MAIN CONTENT -->
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <!-- Page Header -->
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle" id="pageTitle">Rearrange PDF</h1>
+        <p class="tool-page-subtitle" id="pageSubtitle">
+          Reorder pages and download an updated PDF. Everything runs locally in your browser
+        </p>
+      </div>
+
+      <!-- Upload Section -->
+      <div id="uploadSection">
+        <div class="tool-card">
+          <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload PDF">
+            
+            <!-- Upload Prompt -->
+            <div id="uploadPrompt" class="upload-prompt">
+              <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <div class="upload-text">Drop a PDF here</div>
+              <div class="upload-hint">or click to choose a PDF file</div>
+            </div>
+
+            <input id="fileInput" type="file" style="display: none;" accept="application/pdf" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Workspace Section (shown after file load) -->
+      <div id="workspaceSection" style="display: none; padding-bottom: 3rem;">
+        
+        <!-- File Bar (spans full width) -->
+        <div class="tool-file-bar" style="margin-bottom: 1rem;">
+          <div class="tool-file-bar-left">
+            <div class="tool-file-icon-pt">
+              <span class="pt-symbol">Pe</span>
+            </div>
+            <div class="tool-file-info">
+              <div id="fileName" class="tool-file-name">—</div>
+              <div id="fileMeta" class="tool-file-meta">—</div>
+            </div>
+          </div>
+          <button id="changeFileBtn" class="tool-btn-ghost" type="button">Choose Different File</button>
+        </div>
+
+        <!-- Two-column layout -->
+        <div class="tool-workspace-two-col">
+          
+          <!-- Left: Page order list -->
+          <div class="tool-workspace-left">
+            
+            <div class="tool-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3 class="tool-section-heading" style="margin: 0; text-transform: none;">Page Order</h3>
+                <div style="font-size: 0.875rem; color: #64748b;">
+                  <span id="pagesSummary">—</span>
+                </div>
+              </div>
+
+              <!-- Page List Container -->
+              <div id="pageList"></div>
+
+              <!-- Tip -->
+              <p class="tool-slider-hint" style="margin-top: 1rem; line-height: 1.5;">
+                Tip: Use ↑ / ↓ buttons to reorder pages. Reverse and Reset buttons are on the right.
+              </p>
+            </div>
+          </div>
+
+          <!-- Right: Settings sidebar -->
+          <div class="tool-workspace-sidebar">
+            <div class="tool-sidebar-card">
+              
+              <!-- Quick Actions -->
+              <div id="quickActions" style="margin-bottom: 1.5rem;">
+                <div class="tool-sidebar-heading">Quick Actions</div>
+                
+                <div class="tool-button-stack">
+                  <button id="reverseBtn" class="tool-btn-secondary full-width" type="button" disabled>
+                    Reverse Order
+                  </button>
+                  <button id="resetBtn" class="tool-btn-secondary full-width" type="button" disabled>
+                    Reset to Original
+                  </button>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="tool-button-stack">
+                <button id="downloadBtn" class="tool-btn-primary" type="button" disabled>
+                  Download Rearranged PDF
+                </button>
+                <button id="clearBtn" class="tool-btn-secondary full-width" type="button" disabled>
+                  Clear
+                </button>
+              </div>
+
+              <!-- Status -->
+              <div id="status" style="margin-top: 1rem;"></div>
+
+              <!-- Note -->
+              <p class="tool-slider-hint" style="margin-top: 1rem; line-height: 1.5;">
+                Note: Everything runs locally in your browser. Nothing is uploaded.
+              </p>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer will be injected by footer.js -->
+
+  <!-- Scripts -->
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="/assets/vendor/pdf/pdf-lib.umd.min.js"></script>
+  <script type="module" src="./script.js"></script>
+
+</body>
+</html>

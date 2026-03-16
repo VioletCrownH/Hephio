@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Image Info - Hephio</title>
+  <meta
+    name="description"
+    content="View technical details about your images. Process entirely in your browser."
+  />
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/tool-style.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+</head>
+<body>
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle">Image Info</h1>
+        <p class="tool-page-subtitle">
+          View technical details about your images
+        </p>
+      </div>
+
+      <div class="tool-card">
+
+        <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload image">
+          <div id="uploadPrompt" class="upload-prompt">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M17 8l-5-5-5 5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 3v12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="upload-text">Click to upload or drag an image</div>
+            <div class="upload-hint">Supports JPG, PNG, and WebP</div>
+          </div>
+
+          <div id="fileSummary" class="tool-file-preview hidden">
+            <div class="tool-file-thumb">
+              <img id="thumb" alt="" />
+            </div>
+            <div class="tool-file-info">
+              <h2 class="tool-file-name" id="fileName">filename.jpg</h2>
+              <div class="tool-file-meta tool-image-info-file-meta">
+                <span><span class="tool-file-meta-label">Size:</span> <span id="fileSize" class="tool-file-meta-value">—</span></span>
+              </div>
+              <a href="#" id="chooseDifferent" class="tool-choose-different">
+                Choose Different File
+              </a>
+            </div>
+          </div>
+
+          <input id="fileInput" type="file" hidden accept="image/jpeg,image/png,image/webp" />
+        </div>
+
+        <div id="infoGrid" class="tool-image-info-grid hidden">
+
+          <div class="tool-image-info-section">
+            <h2 class="tool-image-info-section-title">Dimensions</h2>
+            <div id="dimensionInfo"></div>
+          </div>
+
+          <div class="tool-image-info-section">
+            <h2 class="tool-image-info-section-title">Image Properties</h2>
+            <div id="propertyInfo"></div>
+          </div>
+
+        </div>
+
+        <div id="status" class="tool-status-message"></div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Cleanup - Hephio</title>
+  <meta name="description" content="Fix whitespace, formatting, and encoding issues in your text files. Process entirely in your browser.">
+  
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/tool-style.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+  
+</head>
+<body>
+
+  <!-- HEADER (injected by header.js) -->
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <!-- Page Header -->
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle">Text Cleanup</h1>
+        <p class="tool-page-subtitle">Fix whitespace, formatting, and encoding issues</p>
+      </div>
+
+      <!-- Main Card -->
+      <div class="tool-card">
+
+        <!-- Upload Zone -->
+        <div id="uploadZone" class="tool-upload-zone">
+          <input type="file" id="fileInput" accept=".txt,text/plain" style="display: none;">
+          
+          <div id="uploadPrompt" class="upload-prompt">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+            </svg>
+            <p class="upload-text">Click to upload or drag a text file</p>
+            <p class="upload-hint">Supports .txt files</p>
+          </div>
+
+          <!-- File Preview (hidden by default) -->
+          <div id="filePreview" class="tool-file-preview hidden">
+            <div class="tool-file-thumb">
+              <svg class="tool-file-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+              </svg>
+            </div>
+            <div class="tool-file-info">
+              <p class="tool-file-name" id="fileName">filename.txt</p>
+              <div class="tool-file-meta">
+                <span><span class="tool-file-meta-label">Size:</span> <span id="fileSize" class="tool-file-meta-value">—</span></span>
+                <span><span class="tool-file-meta-label">Characters:</span> <span id="charCount" class="tool-file-meta-value">—</span></span>
+              </div>
+              <a href="#" id="chooseDifferent" class="tool-choose-different">Choose different file</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- OR Divider -->
+        <div id="orDivider" class="tool-divider">
+          <span>OR</span>
+        </div>
+
+        <!-- Paste Text Section -->
+        <div id="pasteSection" class="tool-paste-section">
+          <textarea 
+            id="pasteInput" 
+            class="tool-paste-input" 
+            placeholder="Paste text here..."
+            rows="4"
+          ></textarea>
+          <button id="btnPasteSubmit" class="tool-btn-primary">Process Text</button>
+        </div>
+
+        <!-- Settings (hidden until file is loaded) -->
+        <div id="settingsSection" class="tool-settings hidden">
+          <h3 class="tool-form-label" style="margin-bottom: 1rem;">Cleanup Options</h3>
+
+          <!-- Clean formatting -->
+          <div class="tool-form-group">
+            <label class="tool-checkbox-label">
+              <input id="optRemoveExtraSpaces" type="checkbox" checked>
+              <span>Remove extra spaces (collapse multiple spaces)</span>
+            </label>
+          </div>
+
+          <div class="tool-form-group">
+            <label class="tool-checkbox-label">
+              <input id="optTrimWhitespace" type="checkbox" checked>
+              <span>Trim leading/trailing whitespace per line</span>
+            </label>
+          </div>
+
+          <div class="tool-form-group">
+            <label class="tool-checkbox-label">
+              <input id="optNormalizeLineBreaks" type="checkbox" checked>
+              <span>Normalize line breaks (CRLF/CR → LF)</span>
+            </label>
+          </div>
+
+          <div class="tool-form-group">
+            <label class="tool-checkbox-label">
+              <input id="optTabsToSpaces" type="checkbox" checked>
+              <span>Convert tabs to spaces</span>
+            </label>
+          </div>
+
+          <div class="tool-form-group" style="margin-left: 1.75rem;">
+            <label class="tool-form-label" for="optTabSize">Tab size</label>
+            <select id="optTabSize" class="tool-form-select">
+              <option value="2">2 spaces</option>
+              <option value="4" selected>4 spaces</option>
+              <option value="8">8 spaces</option>
+            </select>
+          </div>
+
+          <!-- Fix text issues -->
+          <div class="tool-form-group" style="margin-top: 1.5rem;">
+            <label class="tool-checkbox-label">
+              <input id="optNormalizeQuotes" type="checkbox" checked>
+              <span>Normalize quotes (" " ' ' → " ')</span>
+            </label>
+          </div>
+
+          <div class="tool-form-group">
+            <label class="tool-checkbox-label">
+              <input id="optNormalizeDashes" type="checkbox" checked>
+              <span>Normalize dashes (— – → -)</span>
+            </label>
+          </div>
+
+          <div class="tool-form-group">
+            <label class="tool-checkbox-label">
+              <input id="optFixEncoding" type="checkbox" checked>
+              <span>Fix encoding artifacts (e.g., â€™, Ã©)</span>
+            </label>
+          </div>
+
+          <div class="tool-form-group">
+            <label class="tool-checkbox-label">
+              <input id="optPlainPunctuation" type="checkbox">
+              <span>Convert smart punctuation to plain</span>
+            </label>
+          </div>
+
+          <!-- Remove hidden problems -->
+          <div class="tool-form-group" style="margin-top: 1.5rem;">
+            <label class="tool-checkbox-label">
+              <input id="optRemoveInvisible" type="checkbox" checked>
+              <span>Remove invisible characters (zero-width, NBSP)</span>
+            </label>
+          </div>
+
+          <div class="tool-form-group">
+            <label class="tool-checkbox-label">
+              <input id="optRemoveControls" type="checkbox" checked>
+              <span>Remove control characters</span>
+            </label>
+          </div>
+
+          <!-- Structure cleanup -->
+          <div class="tool-form-group" style="margin-top: 1.5rem;">
+            <label class="tool-checkbox-label">
+              <input id="optRemoveEmptyLines" type="checkbox">
+              <span>Remove empty lines</span>
+            </label>
+          </div>
+
+          <div class="tool-form-group">
+            <label class="tool-checkbox-label">
+              <input id="optCollapseBlankLines" type="checkbox">
+              <span>Collapse multiple blank lines to single</span>
+            </label>
+          </div>
+
+          <!-- Case conversion -->
+          <div class="tool-form-group" style="margin-top: 1.5rem;">
+            <label class="tool-form-label" for="optCase">Case conversion</label>
+            <select id="optCase" class="tool-form-select">
+              <option value="none" selected>None</option>
+              <option value="lower">lowercase</option>
+              <option value="upper">UPPERCASE</option>
+              <option value="title">Title Case</option>
+              <option value="sentence">Sentence case</option>
+            </select>
+          </div>
+
+          <!-- Clean Button -->
+          <button id="btnClean" class="tool-btn-primary">Clean Text</button>
+        </div>
+
+        <!-- Result Section (hidden until processed) -->
+        <div id="resultSection" class="tool-result-section hidden">
+          <p class="tool-result-title">✓ Text cleaned successfully</p>
+          <div class="tool-action-group">
+            <button id="btnDownload" class="tool-btn-primary">Download Cleaned Text</button>
+            <button id="btnStartOver" class="tool-btn-secondary">Start Over</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer will be injected by footer.js -->
+
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="./script.js"></script>
+
+</body>
+</html>

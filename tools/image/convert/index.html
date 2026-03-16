@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Image Converter - Hephio</title>
+  <meta
+    name="description"
+    content="Convert images between JPG, PNG, and WebP formats. Process images entirely in your browser."
+  />
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/tool-style.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+</head>
+<body>
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle">Image Converter</h1>
+        <p class="tool-page-subtitle">
+          Convert between JPG, PNG, and WebP. Dimensions stay the same. Everything runs locally in your browser
+        </p>
+      </div>
+
+      <div class="tool-card">
+
+        <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload image">
+          <div id="uploadPrompt" class="upload-prompt">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div class="upload-text">Drop an image here</div>
+            <div class="upload-hint">or click to choose a JPG, PNG, or WebP</div>
+          </div>
+
+          <div id="fileSummary" class="tool-file-preview hidden">
+            <div class="tool-file-thumb tool-convert-thumb">
+              <img id="thumb" alt="" />
+            </div>
+            <div class="tool-file-info">
+              <h2 class="tool-file-name tool-convert-file-name" id="fileName">filename.jpg</h2>
+              <div class="tool-file-meta tool-convert-file-meta">
+                <span><span class="tool-file-meta-label">Original size:</span> <span class="tool-file-meta-value" id="fileSize">—</span></span>
+                <span><span class="tool-file-meta-label">Dimensions:</span> <span class="tool-file-meta-value" id="fileDims">—</span></span>
+              </div>
+              <a href="#" id="chooseDifferent" class="tool-choose-different tool-convert-choose-different">Choose Different File</a>
+            </div>
+          </div>
+
+          <input id="fileInput" type="file" hidden accept="image/jpeg,image/png,image/webp" />
+        </div>
+
+        <div id="settingsPanel" class="tool-settings hidden">
+
+          <div class="tool-form-group">
+            <label class="tool-form-label" for="formatSelect">Convert to</label>
+            <select id="formatSelect" class="tool-form-select" disabled>
+              <option value="image/jpeg">JPG</option>
+              <option value="image/png">PNG</option>
+              <option value="image/webp">WebP</option>
+            </select>
+          </div>
+
+          <div id="qualityWrap" class="tool-form-group hidden">
+            <div class="tool-slider-header">
+              <label class="tool-slider-label" for="qualityInput">Quality</label>
+              <span class="tool-slider-value" id="qualityVal">85%</span>
+            </div>
+            <input id="qualityInput" class="tool-slider" type="range" min="40" max="100" value="85" />
+            <p class="tool-slider-hint">Higher quality = larger file size.</p>
+          </div>
+
+          <button id="convertBtn" class="tool-btn-primary" type="button" disabled>
+            Convert & Download
+          </button>
+
+          <div id="status" class="tool-status-message"></div>
+
+          <p class="tool-metadata-note">
+            Note: Embedded metadata (such as camera details or GPS information) from the original image is not retained when creating a converted version.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Image Resize - Hephio</title>
+  <meta name="description" content="Resize JPG, PNG, or WebP images. Processing happens locally in your browser.">
+  
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/tool-style.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+</head>
+<body>
+
+  <!-- HEADER (injected by header.js) -->
+
+  <!-- MAIN CONTENT -->
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <!-- Page Header -->
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle" id="pageTitle">Image Resize</h1>
+        <p class="tool-page-subtitle" id="pageSubtitle">
+          Resize JPG, PNG, or WebP. Processing happens locally in your browser
+        </p>
+      </div>
+
+      <!-- Main Card -->
+      <div class="tool-card" id="toolCard">
+
+        <!-- Upload Zone (morphs to show file preview) -->
+        <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload image">
+          
+          <!-- Upload Prompt -->
+          <div id="uploadPrompt" class="upload-prompt">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div class="upload-text">Drop an image here</div>
+            <div class="upload-hint">or click to choose a JPG, PNG, or WebP</div>
+          </div>
+
+          <!-- File Preview (revealed after upload) - LEFT ALIGNED -->
+          <div id="fileSummary" class="hidden" style="display: flex; gap: 16px; align-items: center; width: 100%; text-align: left;">
+            <img id="thumb" alt="" style="width: 88px; height: 88px; object-fit: cover; border-radius: 14px; border: 1px solid rgba(0,0,0,0.1); flex-shrink: 0;" />
+            <div style="flex: 1; min-width: 0; text-align: left;">
+              <h2 id="fileName" style="font-weight: 700; font-size: 1.05rem; margin: 0 0 6px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">filename.jpg</h2>
+              <div style="display: flex; gap: 24px; margin-bottom: 8px; color: #6b7280; font-size: 0.875rem; flex-wrap: wrap;">
+                <span><span style="color: #9ca3af;">Original size:</span> <span id="fileSize" style="color: #111; font-weight: 600;">—</span></span>
+                <span><span style="color: #9ca3af;">Dimensions:</span> <span id="fileDims" style="color: #111; font-weight: 600;">—</span></span>
+              </div>
+              <a href="#" id="chooseDifferent" style="color: #2563eb; font-weight: 600; text-decoration: none; font-size: 0.875rem;">Choose Different File</a>
+            </div>
+          </div>
+
+          <input id="fileInput" type="file" style="display: none;" accept="image/jpeg,image/png,image/webp" />
+        </div>
+
+        <!-- Settings Panel (revealed after upload) -->
+        <div id="settingsPanel" class="tool-settings hidden">
+
+          <!-- Resize Dimensions - Compact row with "Resize to:" label -->
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">
+              <div style="flex: 0 0 auto; padding-bottom: 7px;">
+                <span class="tool-form-label" style="font-size: 0.875rem;">Resize to:</span>
+              </div>
+              
+              <div style="flex: 0 0 auto; min-width: 110px;">
+                <label class="tool-form-label" for="widthInput" style="font-size: 0.8125rem; margin-bottom: 4px; display: block;">Width (px)</label>
+                <input id="widthInput" class="tool-form-input" type="number" min="1" step="1" 
+                  style="padding: 7px 10px; font-weight: 600; font-size: 0.9375rem;" />
+              </div>
+
+              <div style="flex: 0 0 auto; min-width: 110px;">
+                <label class="tool-form-label" for="heightInput" style="font-size: 0.8125rem; margin-bottom: 4px; display: block;">Height (px)</label>
+                <input id="heightInput" class="tool-form-input" type="number" min="1" step="1" 
+                  style="padding: 7px 10px; font-weight: 600; font-size: 0.9375rem;" />
+              </div>
+
+              <div style="flex: 0 0 auto; padding-bottom: 7px;">
+                <label class="tool-form-label" style="display: flex; gap: 8px; align-items: center; font-weight: 400; font-size: 0.875rem; margin: 0;">
+                  <input id="lockAspect" type="checkbox" checked style="width: 17px; height: 17px; cursor: pointer;" />
+                  Lock aspect ratio
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Format Selector - Label and dropdown on same row -->
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+              <label class="tool-form-label" for="formatSelect" style="margin: 0; flex: 0 0 auto; font-size: 0.875rem;">Output format</label>
+              <select id="formatSelect" class="tool-form-select" disabled style="flex: 1; min-width: 180px; max-width: 280px; padding: 7px 10px;">
+                <option value="keep">Keep original</option>
+                <option value="jpeg">JPEG</option>
+                <option value="png">PNG</option>
+                <option value="webp">WebP</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Quality Slider (shown for JPEG/WebP only) -->
+          <div id="qualityWrap" class="hidden" style="margin-bottom: 18px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <label class="tool-form-label" for="qualityInput" style="margin: 0; font-size: 0.875rem;">Quality</label>
+              <span id="qualityVal" style="color: #2563eb; font-weight: 600; font-size: 0.9375rem;">85%</span>
+            </div>
+            <input 
+              id="qualityInput" 
+              class="tool-slider" 
+              type="range" 
+              min="40" 
+              max="100" 
+              step="1" 
+              value="85" 
+            />
+            <p class="tool-slider-hint" style="margin-top: 6px;">Higher quality = larger file size</p>
+          </div>
+
+          <!-- Action Button -->
+          <button id="resizeBtn" class="tool-btn-primary" disabled style="padding: 11px 24px;">
+            Resize & Download
+          </button>
+
+          <!-- Status Messages -->
+          <div id="status" style="margin-top: 8px; margin-bottom: 0;"></div>
+
+          <!-- Metadata Note -->
+          <p style="margin: 8px 0 0 0; padding: 0; font-size: 0.75rem; line-height: 1.4; color: #6b7280;">
+            Note: Embedded metadata (such as camera details or GPS information) from the original image is not retained when creating a resized version.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer will be injected by footer.js -->
+
+  <!-- Scripts -->
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="./script.js"></script>
+
+</body>
+</html>

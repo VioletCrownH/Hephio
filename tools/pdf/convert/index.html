@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Convert PDF to Images - Hephio</title>
+  <meta name="description" content="Convert PDF pages into PNG or JPG images. Processing happens entirely in your browser.">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/tool-style.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+</head>
+
+<body>
+
+  <!-- HEADER (injected by header.js) -->
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle">Convert PDF to Images</h1>
+        <p class="tool-page-subtitle">
+          Convert PDF pages into PNG or JPG images. Processing happens entirely in your browser
+        </p>
+      </div>
+
+      <div class="tool-card">
+
+        <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0">
+
+          <div id="uploadPrompt" class="upload-prompt">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round"/>
+              <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2"/>
+            </svg>
+            <div class="upload-text">Drop a PDF here</div>
+            <div class="upload-hint">or click to choose a PDF file</div>
+          </div>
+
+          <div id="fileSummary" class="tool-file-preview hidden">
+            <div class="tool-file-thumb">
+              <div class="tool-file-icon-pt">
+                <span class="pt-symbol">PDF</span>
+              </div>
+            </div>
+
+            <div class="tool-file-info">
+              <h2 id="fileName" class="tool-file-name"></h2>
+
+              <div class="tool-file-meta">
+                <span><span class="tool-file-meta-label">File size:</span> <span id="fileSize"></span></span>
+                <span><span class="tool-file-meta-label">Pages:</span> <span id="pageCount"></span></span>
+              </div>
+
+              <a href="#" id="chooseDifferent" class="tool-choose-different">Choose Different File</a>
+            </div>
+          </div>
+
+          <input id="fileInput" type="file" accept="application/pdf" hidden>
+
+        </div>
+
+        <div id="settingsPanel" class="tool-settings hidden">
+
+          <div class="tool-form-group">
+            <label class="tool-form-label">Output format</label>
+            <select id="formatSelect" class="tool-form-select">
+              <option value="png">PNG</option>
+              <option value="jpg">JPG</option>
+            </select>
+          </div>
+
+          <div class="tool-form-group">
+            <label class="tool-form-label">Render quality</label>
+
+            <div class="tool-slider-header">
+              <span class="tool-slider-label">Scale</span>
+              <span id="scaleVal" class="tool-slider-value">2×</span>
+            </div>
+
+            <input id="scaleInput" class="tool-slider" type="range" min="1" max="4" step="1" value="2">
+
+            <p class="tool-slider-hint">
+              Higher scale produces larger images but better quality.
+            </p>
+
+          </div>
+
+          <button id="convertBtn" class="tool-btn-primary">
+            Convert PDF
+          </button>
+
+          <div id="status" class="tool-status-message"></div>
+
+          <p class="tool-metadata-note">
+            Each page will be exported as an individual image file. Multiple pages download as a ZIP.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+
+  <script src="/assets/vendor/zip/jszip.min.js"></script>
+
+  <script type="module" src="./script.js"></script>
+
+</body>
+</html>

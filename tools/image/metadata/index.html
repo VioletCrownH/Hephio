@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Image Metadata Viewer & Remover - Hephio</title>
+  <meta name="description" content="View and remove EXIF metadata from JPG and PNG images. Create privacy-safe copies of your photos.">
+  
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/tool-style.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+</head>
+<body>
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle" id="pageTitle">Image Metadata Viewer & Remover</h1>
+        <p class="tool-page-subtitle" id="pageSubtitle">
+          View embedded EXIF data and create privacy-safe copies of your images
+        </p>
+      </div>
+
+      <div id="uploadSection">
+        <div class="tool-card">
+          <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload image">
+            <div id="uploadPrompt" class="upload-prompt">
+              <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <div class="upload-text">Drop an image here</div>
+              <div class="upload-hint">or click to choose a JPG or PNG</div>
+            </div>
+
+            <input id="fileInput" type="file" style="display: none;" accept="image/jpeg,image/png" />
+          </div>
+        </div>
+      </div>
+
+      <div id="workspaceSection" style="display: none;">
+        
+        <div class="tool-file-bar">
+          <div class="tool-file-bar-left">
+            <div class="tool-metadata-preview-wrap">
+              <img id="filePreviewImage" class="tool-metadata-preview-image hidden" alt="Selected image preview" />
+              <div id="filePreviewFallback" class="tool-file-icon">🖼️</div>
+            </div>
+            <div class="tool-file-info">
+              <div id="fileName" class="tool-file-name">—</div>
+              <div id="fileMeta" class="tool-file-meta">—</div>
+            </div>
+          </div>
+          <button id="changeFileBtn" class="tool-btn-ghost" type="button">Choose Different File</button>
+        </div>
+
+        <div class="tool-metadata-container">
+          <div class="tool-metadata-section">
+            <h3 class="tool-section-heading">File Information</h3>
+            <div id="fileInfoBlock" class="tool-info-block"></div>
+          </div>
+
+          <div class="tool-metadata-section">
+            <h3 class="tool-section-heading">Embedded Metadata</h3>
+            <div id="metaBlock" class="tool-info-block"></div>
+          </div>
+        </div>
+
+        <div id="status" style="margin-top: 16px;"></div>
+
+        <div class="tool-action-group">
+          <button id="stripBtn" class="tool-btn-primary" type="button" disabled>
+            Remove All Metadata
+          </button>
+          <button id="downloadBtn" class="tool-btn-secondary full-width" type="button" disabled style="display: none;">
+            Download Cleaned Image
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="./script.js" type="module"></script>
+
+</body>
+</html>

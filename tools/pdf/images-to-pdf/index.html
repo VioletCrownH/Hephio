@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Images to PDF - Hephio</title>
+  <meta name="description" content="Convert JPG, PNG, or WebP images into a single PDF directly in your browser.">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/tool-style.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+</head>
+<body>
+
+  <!-- HEADER (injected by header.js) -->
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle">Images to PDF</h1>
+        <p class="tool-page-subtitle">
+          Convert JPG, PNG, or WebP images into a single PDF directly in your browser
+        </p>
+      </div>
+
+      <div class="tool-card">
+
+        <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload images">
+          <div id="uploadPrompt" class="upload-prompt">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div id="uploadText" class="upload-text">Drop images here</div>
+            <div id="uploadHint" class="upload-hint">or click to choose JPG, PNG, or WebP files</div>
+          </div>
+
+          <input
+            id="fileInput"
+            type="file"
+            hidden
+            multiple
+            accept="image/jpeg,image/png,image/webp"
+          >
+        </div>
+
+        <div id="fileListSection" class="tool-result-section hidden">
+          <div class="tool-result-header">
+            <div>
+              <div class="tool-result-title">Images</div>
+              <div class="tool-result-sub" id="fileListSummary">0 files</div>
+            </div>
+            <button id="addMoreBtn" class="tool-btn-ghost-small" type="button">Add More</button>
+          </div>
+
+          <div id="fileList" class="image-pdf-list"></div>
+        </div>
+
+        <div id="settingsPanel" class="tool-settings hidden">
+
+          <div class="tool-form-group">
+            <label class="tool-form-label" for="pageSizeSelect">Page size</label>
+            <select id="pageSizeSelect" class="tool-form-select">
+              <option value="fit">Fit to each image</option>
+              <option value="letter-portrait">Letter (Portrait)</option>
+              <option value="letter-landscape">Letter (Landscape)</option>
+              <option value="a4-portrait">A4 (Portrait)</option>
+              <option value="a4-landscape">A4 (Landscape)</option>
+            </select>
+          </div>
+
+          <div class="tool-form-group">
+            <label class="tool-form-label" for="imageFitSelect">Image placement</label>
+            <select id="imageFitSelect" class="tool-form-select">
+              <option value="contain">Fit inside page</option>
+              <option value="cover">Fill page and crop</option>
+            </select>
+          </div>
+
+          <div class="tool-form-group">
+            <label class="tool-checkbox-label" for="marginCheckbox">
+              <input id="marginCheckbox" type="checkbox" checked>
+              <span>Add small page margin</span>
+            </label>
+          </div>
+
+          <button id="convertBtn" class="tool-btn-primary" disabled>
+            Create PDF
+          </button>
+
+          <div id="status" class="tool-status-message"></div>
+
+          <p class="tool-metadata-note">
+            Images are added to the PDF in the order shown below. Use the arrow buttons to rearrange them before converting.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+
+  <script src="/assets/vendor/pdf/pdf-lib.umd.min.js"></script>
+
+  <script src="./script.js"></script>
+</body>
+</html>

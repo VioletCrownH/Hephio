@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Rotate PDF Online - Hephio</title>
+  <meta name="description" content="Rotate PDF pages 90°, 180°, or 270° online. Fast and private — files are processed entirely in your browser with no uploads required." />
+
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/tool-style.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+</head>
+<body>
+
+  <!-- Header injected by /header.js -->
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <!-- Page Header -->
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle">Rotate PDF</h1>
+        <p class="tool-page-subtitle">
+          Rotate PDF pages 90°, 180°, or 270° directly in your browser
+        </p>
+      </div>
+
+      <!-- Main Card -->
+      <div class="tool-card">
+
+        <!-- Upload Zone -->
+        <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload PDF">
+          <!-- Upload Prompt -->
+          <div id="uploadPrompt" class="upload-prompt">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div class="upload-text">Drop a PDF here</div>
+            <div class="upload-hint">or click to choose a PDF file</div>
+          </div>
+
+          <!-- File Preview -->
+          <div id="fileSummary" class="tool-file-preview hidden">
+            <div class="tool-file-icon-pt">
+              <span class="pt-symbol">PDF</span>
+            </div>
+
+            <div class="tool-file-info">
+              <h2 class="tool-file-name" id="fileName">—</h2>
+              <div class="tool-file-meta">
+                <span><span class="tool-file-meta-label">File size:</span> <span class="tool-file-meta-value" id="fileSize">—</span></span>
+                <span><span class="tool-file-meta-label">Pages:</span> <span class="tool-file-meta-value" id="pageCount">—</span></span>
+              </div>
+              <a href="#" id="chooseDifferent" class="tool-choose-different">Choose Different File</a>
+            </div>
+          </div>
+
+          <input id="fileInput" type="file" accept="application/pdf" hidden />
+        </div>
+
+        <!-- Settings Panel -->
+        <div id="settingsPanel" class="tool-settings hidden">
+
+          <div class="tool-form-group">
+            <label class="tool-form-label" for="pageRangeInput">Pages to rotate</label>
+            <input
+              id="pageRangeInput"
+              class="tool-form-input"
+              type="text"
+              placeholder="All pages (or e.g., 1-3, 5, 8-10)"
+              autocomplete="off"
+              inputmode="text"
+              disabled
+            />
+            <p class="tool-slider-hint">Leave blank to rotate all pages. Page numbers start at 1.</p>
+          </div>
+
+          <div class="tool-form-group">
+            <label class="tool-form-label" for="rotationSelect">Rotate</label>
+            <select id="rotationSelect" class="tool-form-select" disabled>
+              <option value="90">90° clockwise</option>
+              <option value="180">180°</option>
+              <option value="270">270° clockwise</option>
+            </select>
+          </div>
+
+          <button id="rotateBtn" class="tool-btn-primary" disabled>
+            Rotate & Download
+          </button>
+
+          <div id="status" class="tool-status-message"></div>
+
+          <p class="tool-metadata-note">
+            Tip: Use ranges like <strong>1-3, 5, 8-10</strong>. Leave blank to rotate all pages.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer injected by /footer.js -->
+
+  <!-- Scripts -->
+  
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+
+  <!-- Vendor -->
+  <script src="/assets/vendor/pdf/pdf-lib.umd.min.js"></script>
+
+  <!-- Tool -->
+  <script src="./script.js"></script>
+</body>
+</html>

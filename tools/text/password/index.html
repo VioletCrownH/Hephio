@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Password Generator - Hephio</title>
+  <meta name="description" content="Generate strong passwords in your browser. Choose length, character sets, and quantity. Copy instantly.">
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/tool-style.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+</head>
+<body>
+
+  <!-- HEADER (injected by header.js) -->
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <!-- Page Header -->
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle">Password Generator</h1>
+        <p class="tool-page-subtitle">Generate strong passwords locally in your browser</p>
+      </div>
+
+      <div class="tool-card">
+
+        <!-- Settings -->
+        <div class="tool-settings">
+
+          <div class="tool-form-group">
+            <div class="tool-slider-header">
+              <p class="tool-slider-label">Length</p>
+              <span class="tool-slider-value" id="lenValue">16</span>
+            </div>
+
+            <input id="lenSlider" class="tool-slider" type="range" min="8" max="64" step="1" value="16" />
+            <div class="tool-grid-2" style="margin-top: 0.75rem;">
+              <div>
+                <label class="tool-form-label-small" for="lenInput">Length (8–64)</label>
+                <input id="lenInput" class="tool-form-input-small" type="number" min="8" max="64" step="1" value="16" />
+              </div>
+              <div>
+                <label class="tool-form-label-small" for="qtySelect">How many</label>
+                <select id="qtySelect" class="tool-form-input-small">
+                  <option value="1" selected>1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-form-group tool-checkbox-grid" style="margin-top: 1.25rem;">
+            <label class="tool-checkbox-label">
+              <input id="optLower" type="checkbox" checked />
+              <span>Lowercase (a–z)</span>
+            </label>
+
+            <label class="tool-checkbox-label">
+              <input id="optNumbers" type="checkbox" checked />
+              <span>Numbers (0–9)</span>
+            </label>
+
+            <label class="tool-checkbox-label">
+              <input id="optUpper" type="checkbox" checked />
+              <span>Uppercase (A–Z)</span>
+            </label>
+
+            <label class="tool-checkbox-label">
+              <input id="optSymbols" type="checkbox" />
+              <span>Symbols (!@#$…)</span>
+            </label>
+          </div>
+
+          <div class="tool-form-group" style="margin-top: 1.25rem;">
+            <label class="tool-checkbox-label">
+              <input id="optGuarantee" type="checkbox" checked />
+              <span>Guarantee at least one from each selected set</span>
+            </label>
+
+            <label class="tool-checkbox-label" style="margin-top: 0.75rem;">
+              <input id="optNoAmbiguous" type="checkbox" />
+              <span>Exclude ambiguous characters (O/0, l/1, I)</span>
+            </label>
+          </div>
+
+          <!-- Strength meter -->
+          <div class="tool-strength">
+            <div class="tool-strength-row">
+              <span class="tool-strength-label">Strength</span>
+              <span class="tool-strength-text" id="strengthText">—</span>
+            </div>
+            <div class="tool-strength-bars" id="strengthBars" aria-label="Password strength bars">
+              <span class="tool-strength-bar"></span><span class="tool-strength-bar"></span><span class="tool-strength-bar"></span><span class="tool-strength-bar"></span>
+              <span class="tool-strength-bar"></span><span class="tool-strength-bar"></span><span class="tool-strength-bar"></span><span class="tool-strength-bar"></span>
+            </div>
+          </div>
+
+          <div class="tool-action-group" style="margin-top: 1.25rem;">
+            <button id="btnGenerate" class="tool-btn-primary" type="button">Generate</button>
+            <button id="btnReset" class="tool-btn-secondary" type="button">Reset</button>
+          </div>
+
+          <p class="tool-status-message" id="status" aria-live="polite"></p>
+        </div>
+
+        <!-- Output -->
+        <div class="tool-result-panel" id="resultPanel">
+          <div class="tool-result-header">
+            <div>
+              <div class="tool-result-title">Generated Passwords</div>
+              <div class="tool-result-sub" id="resultSub">0 generated</div>
+            </div>
+            <button id="btnCopyAll" class="tool-btn-ghost-small" type="button">Copy All</button>
+          </div>
+
+          <div id="passwordList" class="tool-password-list" aria-label="Generated passwords">
+            <!-- rows injected by JS -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer will be injected by footer.js -->
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

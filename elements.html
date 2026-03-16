@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hephio Elements - Icon System</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(to bottom right, #f8fafc, #eff6ff 30%, #f8fafc);
+      min-height: 100vh;
+      padding: 3rem 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      font-size: 1.125rem;
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+
+    .brand-color {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: #334155;
+      margin-top: 1rem;
+    }
+
+    .brand-color-swatch {
+      width: 24px;
+      height: 24px;
+      background: #2563eb;
+      border-radius: 4px;
+      border: 2px solid #1e40af;
+    }
+
+    .elements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .element-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s;
+    }
+
+    .element-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Periodic Table Icon Base Style */
+    .element-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-bottom: 1.25rem;
+    }
+
+    .element-symbol {
+      font-weight: 700;
+      font-size: 32px;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    /* PDF Tools - Orange */
+    .element-icon.pdf {
+      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+      border: 3px solid #f97316;
+      box-shadow: 0 4px 8px rgba(249, 115, 22, 0.15);
+    }
+
+    .element-icon.pdf .element-symbol {
+      color: #ea580c;
+    }
+
+    /* Image Tools - Purple */
+    .element-icon.image {
+      background: linear-gradient(135deg, #faf5ff 0%, #e9d5ff 100%);
+      border: 3px solid #a855f7;
+      box-shadow: 0 4px 8px rgba(168, 85, 247, 0.15);
+    }
+
+    .element-icon.image .element-symbol {
+      color: #7e22ce;
+    }
+
+    /* Text Tools - Blue */
+    .element-icon.text {
+      background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%);
+      border: 3px solid #2563eb;
+      box-shadow: 0 4px 8px rgba(37, 99, 235, 0.15);
+    }
+
+    .element-icon.text .element-symbol {
+      color: #1e40af;
+    }
+
+    /* File Tools - Green */
+    .element-icon.file {
+      background: linear-gradient(135deg, #f0fdf4 0%, #bbf7d0 100%);
+      border: 3px solid #16a34a;
+      box-shadow: 0 4px 8px rgba(22, 163, 74, 0.15);
+    }
+
+    .element-icon.file .element-symbol {
+      color: #15803d;
+    }
+
+    .element-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.25rem;
+      text-align: center;
+    }
+
+    .element-category {
+      font-size: 0.8125rem;
+      color: #64748b;
+      text-align: center;
+    }
+
+    .section-divider {
+      border-top: 2px solid #e2e8f0;
+      margin: 3rem 0;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: #2563eb;
+      border-radius: 2px;
+    }
+
+    .color-legend {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .legend-swatch {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 2px solid;
+      flex-shrink: 0;
+    }
+
+    .legend-swatch.orange {
+      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+      border-color: #f97316;
+    }
+
+    .legend-swatch.purple {
+      background: linear-gradient(135deg, #faf5ff 0%, #e9d5ff 100%);
+      border-color: #a855f7;
+    }
+
+    .legend-swatch.blue {
+      background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%);
+      border-color: #2563eb;
+    }
+
+    .legend-swatch.green {
+      background: linear-gradient(135deg, #f0fdf4 0%, #bbf7d0 100%);
+      border-color: #16a34a;
+    }
+
+    .legend-text {
+      font-size: 0.875rem;
+      color: #334155;
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 2rem 1rem;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .elements-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .element-icon {
+        width: 60px;
+        height: 60px;
+      }
+
+      .element-symbol {
+        font-size: 24px;
+      }
+
+      .color-legend {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Hephio Elements</h1>
+      <p>Periodic table-style icon system for all 25 tools</p>
+      <div class="brand-color">
+        <div class="brand-color-swatch"></div>
+        <span>Primary Brand Color: <strong>#2563eb</strong> (Hephio Blue)</span>
+      </div>
+    </div>
+
+    <!-- PDF Tools Section -->
+    <h2 class="section-title">PDF Tools</h2>
+    <div class="elements-grid">
+      <div class="element-card">
+        <div class="element-icon pdf">
+          <span class="element-symbol">Pc</span>
+        </div>
+        <div class="element-name">PDF Convert</div>
+        <div class="element-category">PDF Tool</div>
+      </div>
+
+      <div class="element-card">
+        <div class="element-icon pdf">
+          <span class="element-symbol">Pm</span>
+        </div>
+        <div class="element-name">PDF Merge</div>
+        <div class="element-category">PDF Tool</div>
+      </div>
+
+      <div class="element-card">
+        <div class="element-icon pdf">
+          <span class="element-symbol">Ps</span>
+        </div>
+        <div class="element-name">PDF Split</div>
+        <div class="element-category">PDF Tool</div>
+      </div>
+
+      <div class="element-card">
+        <div class="element-icon pdf">
+          <span class="element-symbol">Pe</span>
+        </div>
+        <div class="element-name">PDF Extract</div>
+        <div class="element-category">PDF Tool</div>
+      </div>
+
+      <div class="element-card">
+        <div class="element-icon pdf">
+          <span class="element-symbol">Pp</span>
+        </div>
+        <div class="element-name">PDF Protect</div>
+        <div class="element-category">PDF Tool</div>
+      </div>
+
+      <div class="element-card">
+        <div class="element-icon pdf">
+          <span class="element-symbol">Pr</span>
+        </div>
+        <div class="element-name">PDF Rearrange</div>
+        <div class="element-category">PDF Tool</div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Image Tools Section -->
+    <h2 class="section-title">Image Tools</h2>
+    <div class="elements-grid">
+      <div class="element-card">
+        <div class="element-icon image">
+          <span class="element-symbol">Ic</span>
+        </div>
+        <div class="element-name">Image Compress</div>
+        <div class="element-category">Image Tool</div>
+      </div>
+
+      <div class="element-card">
+        <div class="element-icon image">
+          <span class="element-symbol">Iv</span>
+        </div>
+        <div class="element-name">Image Convert</div>
+        <div class="element-category">Image Tool</div>
+      </div>
+
+      <div class="element-card">
+        <div class="element-icon image">
+          <span class="element-symbol">Cr</span>
+        </div>
+        <div class="element-name">Crop & Rotate</div>
+        <div class="element-category">Image Tool</div>
+      </div>
+
+      <div class="element-card">
+        <div class="element-icon image">
+          <span class="element-symbol">In</span>
+        </div>
+        <div class="element-name">Image Info</div>
+        <div class="element-category">Image Tool</div>
+      </div>
+
+      <div class="element-card">
+        <div class="element-icon image">
+          <span class="element-symbol">Im</span>
+        </div>
+        <div class="element-name">Image Metadata</div>
+        <div class="element-category">Image Tool</div>
+      </div>
+
+      <div class="element-card">
+        <div class="element-icon image">
+          <span class="element-symbol">Ir</span>
+        </div>
+        <div class="element-name">Image Resize</div>
+        <div class="element-category">Image Tool</div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Text Tools Section -->
+    <h2 class="section-title">Text Tools</h2>
+    <div class="elements-grid">
+      <div class="element-card">
+        <div class="element-icon text">
+          <span class="element-symbol">Cc</span>
+        </div>
+        <div class="element-name">Change Case</div>
+        <div class="element-category">Text Tool</div>
+      </div>
+
+      <div class="element-card">
+        <div class="element-icon text">
+          <span class="element-symbol">Tc</span>
+        </div>
+        <div class="element-name">Text Cleanup</div>
+        <div class="element-category">Text Tool</div>
+      </div>
+
+      <div class="element-card">
+        <div class="element-icon text">
+          <span class="element-symbol">Wc</span>
+        </div>
+        <div class="element-name">Text Counter</div>
+        <div class="element-category">Text Tool</div>
+      </div>
+
+      <div class="element-card">
+        <div class="element-icon text">
+          <span class="element-symbol">Jf</span>
+        </div>
+        <div class="element-name">JSON Formatter</div>
+        <div class="element-category">Text Tool</div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Color Legend -->
+    <h2 class="section-title">Color System</h2>
+    <div class="color-legend">
+      <div class="legend-item">
+        <div class="legend-swatch orange"></div>
+        <div class="legend-text">PDF Tools (Orange)</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch purple"></div>
+        <div class="legend-text">Image Tools (Purple)</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch blue"></div>
+        <div class="legend-text">Text Tools (Blue)</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch green"></div>
+        <div class="legend-text">File Tools (Green)</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

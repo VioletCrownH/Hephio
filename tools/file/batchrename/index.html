@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Batch Rename - Hephio</title>
+  <meta
+    name="description"
+    content="Rename multiple files in your browser with prefix, suffix, replace, and numbering rules."
+  />
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/tool-style.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+</head>
+<body>
+
+<main class="tool-main has-extra-space" id="toolMain">
+  <div class="tool-container">
+    <div class="tool-page-header">
+      <h1 class="tool-page-title with-subtitle">Batch Rename</h1>
+      <p class="tool-page-subtitle">
+        Rename multiple files in your browser with prefix, suffix, replace, and numbering rules
+      </p>
+    </div>
+
+    <div class="tool-card">
+
+      <div id="uploadZone" class="tool-upload-zone" role="button" tabindex="0" aria-label="Upload files">
+        <div id="uploadPrompt" class="upload-prompt">
+          <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <div class="upload-text">Drop files here</div>
+          <div class="upload-hint">or click to choose multiple files</div>
+        </div>
+
+        <div id="fileSummary" class="tool-file-preview hidden">
+          <div class="tool-file-icon-batch">
+            <span class="batch-symbol">RN</span>
+          </div>
+          <div class="tool-file-info">
+            <h2 class="tool-file-name" id="summaryTitle">0 files selected</h2>
+            <div class="tool-file-meta">
+              <span><span class="tool-file-meta-label">Total size:</span> <span class="tool-file-meta-value" id="summarySize">—</span></span>
+            </div>
+            <div class="tool-batch-summary-actions">
+              <button id="addFilesBtn" class="tool-btn-ghost-small" type="button">Add More Files</button>
+              <button id="replaceFilesBtn" class="tool-btn-ghost-small" type="button">Replace All Files</button>
+            </div>
+          </div>
+        </div>
+
+        <input id="fileInput" type="file" multiple hidden />
+      </div>
+
+      <div id="workspace" class="tool-batch-workspace hidden">
+
+        <div class="tool-batch-grid">
+
+          <div class="tool-batch-card">
+            <h2 class="tool-sidebar-heading">Rename Rules</h2>
+
+            <div class="tool-form-group">
+              <label class="tool-form-label" for="prefixInput">Prefix</label>
+              <input id="prefixInput" class="tool-form-input" type="text" placeholder="example-" />
+            </div>
+
+            <div class="tool-form-group">
+              <label class="tool-form-label" for="suffixInput">Suffix</label>
+              <input id="suffixInput" class="tool-form-input" type="text" placeholder="-final" />
+            </div>
+
+            <div class="tool-grid-2">
+              <div class="tool-form-group">
+                <label class="tool-form-label" for="replaceFromInput">Replace</label>
+                <input id="replaceFromInput" class="tool-form-input" type="text" placeholder="IMG_" />
+              </div>
+
+              <div class="tool-form-group">
+                <label class="tool-form-label" for="replaceToInput">With</label>
+                <input id="replaceToInput" class="tool-form-input" type="text" placeholder="photo-" />
+              </div>
+            </div>
+
+            <div class="tool-batch-numbering-card">
+              <label class="tool-checkbox-label">
+                <input id="numberingEnabled" type="checkbox" checked />
+                <span>Add numbering</span>
+              </label>
+
+              <div class="tool-grid-2 tool-batch-numbering-grid">
+                <div class="tool-form-group">
+                  <label class="tool-form-label" for="numberFormatSelect">Format</label>
+                  <select id="numberFormatSelect" class="tool-form-select">
+                    <option value="1">1, 2, 3</option>
+                    <option value="2">01, 02, 03</option>
+                    <option value="3" selected>001, 002, 003</option>
+                  </select>
+                </div>
+
+                <div class="tool-form-group">
+                  <label class="tool-form-label" for="startNumberInput">Start at</label>
+                  <input
+                    id="startNumberInput"
+                    class="tool-form-input"
+                    type="number"
+                    min="1"
+                    value="1"
+                    inputmode="numeric"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="tool-batch-output-card">
+              <div class="tool-form-label">Download Mode</div>
+
+              <div class="tool-batch-radio-group">
+                <label class="tool-checkbox-label">
+                  <input type="radio" name="downloadMode" value="zip" checked />
+                  <span>Download as ZIP</span>
+                </label>
+
+                <label class="tool-checkbox-label">
+                  <input type="radio" name="downloadMode" value="individual" />
+                  <span>Download files individually</span>
+                </label>
+              </div>
+
+              <p class="tool-batch-hint">
+                Individual downloads may trigger multiple browser download prompts. ZIP is recommended for larger batches.
+              </p>
+            </div>
+
+            <div class="tool-button-stack">
+              <button id="downloadBtn" class="tool-btn-primary" type="button">
+                Download Renamed Files
+              </button>
+
+              <button id="clearBtn" class="tool-btn-secondary" type="button">
+                Clear All
+              </button>
+            </div>
+
+            <div id="status" class="tool-status-message"></div>
+          </div>
+
+          <div class="tool-batch-card">
+            <div class="tool-result-header">
+              <div>
+                <div class="tool-result-title">Preview</div>
+                <div class="tool-result-sub" id="previewMeta">0 files</div>
+              </div>
+            </div>
+
+            <div id="conflictNote" class="tool-alert-warning hidden">
+              Some renamed files would have matched. Hephio automatically added -2, -3, and similar suffixes to keep names unique.
+            </div>
+
+            <div id="previewList" class="tool-batch-preview-list"></div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <p class="tool-metadata-note tool-batch-note">
+        Filenames are changed only in the downloaded copies. Original files on your device are not modified.
+      </p>
+
+    </div>
+  </div>
+</main>
+
+<script src="/analytics.js"></script>
+<script src="/favicon.js"></script>
+<script src="/header.js"></script>
+<script src="/footer.js"></script>
+<script src="/tool-layout.js"></script>
+<script type="module" src="./script.js"></script>
+
+</body>
+</html>

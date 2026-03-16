@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Sort Lines - Hephio</title>
+  <meta name="description" content="Deduplicate and sort text lines alphabetically, numerically, or by length. Runs entirely in your browser.">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/tool-style.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+</head>
+<body>
+
+  <!-- HEADER (injected by header.js) -->
+
+  <main class="tool-main has-extra-space" id="toolMain">
+    <div class="tool-container">
+
+      <!-- Page Header -->
+      <div class="tool-page-header">
+        <h1 class="tool-page-title with-subtitle">Sort Lines</h1>
+        <p class="tool-page-subtitle">Deduplicate and sort text lines alphabetically, numerically, or by length</p>
+      </div>
+
+      <div class="tool-card">
+
+        <!-- Upload Zone -->
+        <div id="uploadZone" class="tool-upload-zone">
+          <input type="file" id="fileInput" accept=".txt,text/plain" style="display:none;">
+
+          <div id="uploadPrompt" class="upload-prompt">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+            </svg>
+            <p class="upload-text">Click to upload or drag a text file</p>
+            <p class="upload-hint">Supports .txt files</p>
+          </div>
+
+          <!-- File Preview -->
+          <div id="filePreview" class="tool-file-preview hidden" aria-live="polite">
+            <div class="tool-file-thumb" aria-hidden="true">
+              <svg class="tool-file-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+              </svg>
+            </div>
+            <div class="tool-file-info">
+              <p class="tool-file-name" id="fileName">filename.txt</p>
+              <div class="tool-file-meta">
+                <span><span class="tool-file-meta-label">Size:</span> <span id="fileSize" class="tool-file-meta-value">—</span></span>
+                <span><span class="tool-file-meta-label">Characters:</span> <span id="charCount" class="tool-file-meta-value">—</span></span>
+              </div>
+              <a href="#" id="chooseDifferent" class="tool-choose-different">Choose different file</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-divider"><span>OR</span></div>
+
+        <!-- Two panes -->
+        <div class="tool-text-panes">
+          <!-- Input -->
+          <div class="tool-text-pane">
+            <div class="tool-text-pane-header">
+              <span class="tool-text-pane-title">Input</span>
+              <span class="tool-text-pane-meta" id="metaInput">0 lines</span>
+            </div>
+            <textarea
+              id="inputText"
+              class="tool-textarea"
+              placeholder="Paste lines here (one item per line)..."
+              spellcheck="false"
+            ></textarea>
+          </div>
+
+          <!-- Output -->
+          <div class="tool-text-pane">
+            <div class="tool-text-pane-header">
+              <span class="tool-text-pane-title">Output</span>
+              <span class="tool-text-pane-meta" id="metaOutput">0 lines</span>
+            </div>
+            <textarea
+              id="outputText"
+              class="tool-textarea"
+              readonly
+              placeholder="Sorted lines will appear here..."
+              spellcheck="false"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="tool-sort-options">
+          <div class="tool-sort-grid">
+
+            <div class="tool-sort-card">
+              <div class="tool-form-label">Sort type</div>
+              <label class="tool-checkbox-label">
+                <input type="radio" name="sortType" value="alpha" checked>
+                <span>Alphabetical</span>
+              </label>
+              <label class="tool-checkbox-label" style="margin-top: 0.5rem;">
+                <input type="radio" name="sortType" value="numeric">
+                <span>Numeric (lines starting with numbers first)</span>
+              </label>
+              <label class="tool-checkbox-label" style="margin-top: 0.5rem;">
+                <input type="radio" name="sortType" value="length">
+                <span>Length</span>
+              </label>
+            </div>
+
+            <div class="tool-sort-card">
+              <div class="tool-form-label">Options</div>
+              <label class="tool-checkbox-label">
+                <input id="optCaseInsensitive" type="checkbox" checked>
+                <span>Case-insensitive</span>
+              </label>
+              <label class="tool-checkbox-label" style="margin-top: 0.5rem;">
+                <input id="optRemoveDupes" type="checkbox">
+                <span>Remove duplicates</span>
+              </label>
+              <label class="tool-checkbox-label" style="margin-top: 0.5rem;">
+                <input id="optIgnoreEmpty" type="checkbox" checked>
+                <span>Ignore empty lines</span>
+              </label>
+              <label class="tool-checkbox-label" style="margin-top: 0.5rem;">
+                <input id="optTrim" type="checkbox" checked>
+                <span>Trim whitespace</span>
+              </label>
+            </div>
+
+            <div class="tool-sort-card">
+              <div class="tool-form-label">Order</div>
+              <label class="tool-checkbox-label">
+                <input type="radio" name="sortOrder" value="asc" checked>
+                <span>Ascending</span>
+              </label>
+              <label class="tool-checkbox-label" style="margin-top: 0.5rem;">
+                <input type="radio" name="sortOrder" value="desc">
+                <span>Descending</span>
+              </label>
+            </div>
+
+          </div>
+
+          <button id="btnSort" class="tool-btn-primary" type="button" style="margin-top: 1rem;">Sort Lines</button>
+        </div>
+
+        <!-- Actions -->
+        <div class="tool-action-row tool-action-row-2">
+          <button id="btnCopy" class="tool-btn-primary" type="button">Copy Output</button>
+          <button id="btnDownload" class="tool-btn-secondary full-width" type="button">Download TXT</button>
+          <button id="btnClear" class="tool-btn-secondary full-width" type="button">Clear</button>
+        </div>
+
+        <p class="tool-status-message" id="status" aria-live="polite"></p>
+
+        <p class="tool-metadata-note" style="margin-top: 1rem;">
+          Runs entirely in your browser. Nothing is uploaded.
+        </p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer injected by footer.js -->
+  <script src="/analytics.js"></script>
+  <script src="/favicon.js"></script>
+  <script src="/header.js"></script>
+  <script src="/footer.js"></script>
+  <script src="/tool-layout.js"></script>
+  <script src="./script.js"></script>
+
+</body>
+</html>

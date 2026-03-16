@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>URL Encoder / Decoder - Hephio</title>
+  <meta
+    name="description"
+    content="Encode or decode URL text and query parameter values directly in your browser"
+  />
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/tool-style.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+</head>
+
+<body>
+
+<main class="tool-main has-extra-space" id="toolMain">
+  <div class="tool-container">
+
+    <div class="tool-page-header">
+      <h1 class="tool-page-title with-subtitle">URL Encoder / Decoder</h1>
+      <p class="tool-page-subtitle">
+        Encode or decode URL text and query parameter values directly in your browser
+      </p>
+    </div>
+
+    <div class="tool-card">
+
+      <div class="tool-text-workspace">
+
+        <div class="tool-text-panes">
+
+          <!-- LEFT PANE -->
+          <div class="tool-text-pane">
+
+            <div class="tool-url-pane-header">
+              <div class="tool-text-pane-title">Plain Text</div>
+              <button id="encodeBtn" class="tool-btn-ghost-small">
+                Encode →
+              </button>
+            </div>
+
+            <textarea
+              id="plainInput"
+              class="tool-textarea tool-url-textarea"
+              spellcheck="false"
+              placeholder="Paste or type plain text to encode
+
+Example:
+hello world & more"
+            ></textarea>
+
+            <div class="tool-text-mini-counter" id="plainMeta">
+              0 characters
+            </div>
+
+          </div>
+
+          <!-- RIGHT PANE -->
+          <div class="tool-text-pane">
+
+            <div class="tool-url-pane-header">
+              <button id="decodeBtn" class="tool-btn-ghost-small">
+                ← Decode
+              </button>
+              <div class="tool-text-pane-title">Encoded Text</div>
+            </div>
+
+            <textarea
+              id="encodedInput"
+              class="tool-textarea tool-url-textarea"
+              spellcheck="false"
+              placeholder="Paste encoded text to decode
+
+Example:
+hello%20world%20%26%20more"
+            ></textarea>
+
+            <div class="tool-text-mini-counter" id="encodedMeta">
+              0 characters
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="tool-action-row tool-action-row-url">
+          <button id="copyPlainBtn" class="tool-btn-secondary">
+            Copy Plain Text
+          </button>
+
+          <button id="copyEncodedBtn" class="tool-btn-secondary">
+            Copy Encoded Text
+          </button>
+
+          <button id="swapBtn" class="tool-btn-secondary">
+            Swap
+          </button>
+
+          <button id="clearBtn" class="tool-btn-secondary">
+            Clear
+          </button>
+        </div>
+
+        <div id="status" class="tool-status-message"></div>
+
+        <p class="tool-metadata-note">
+          Uses encodeURIComponent() and decodeURIComponent(). Best for encoding
+          query parameters, search terms, and text fragments.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<script src="/analytics.js"></script>
+<script src="/favicon.js"></script>
+<script src="/header.js"></script>
+<script src="/footer.js"></script>
+<script src="/tool-layout.js"></script>
+<script src="./script.js"></script>
+
+</body>
+</html>

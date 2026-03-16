@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>QR Code Generator - Hephio</title>
+  <meta
+    name="description"
+    content="Generate QR codes for URLs, text, email, phone numbers, and more directly in your browser"
+  />
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/tool-style.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+</head>
+<body>
+
+<main class="tool-main has-extra-space" id="toolMain">
+  <div class="tool-container">
+
+    <div class="tool-page-header">
+      <h1 class="tool-page-title with-subtitle">QR Code Generator</h1>
+      <p class="tool-page-subtitle">
+        Generate QR codes for URLs, text, email, phone numbers, and more directly in your browser
+      </p>
+    </div>
+
+    <div class="tool-card">
+
+      <!-- TEXT INPUT -->
+      <div class="tool-form-group">
+        <label class="tool-form-label" for="qrInput">Enter a URL or text</label>
+
+        <textarea
+          id="qrInput"
+          class="tool-textarea tool-qr-input"
+          spellcheck="false"
+          placeholder="Paste a URL or enter any text&#10;&#10;Examples:&#10;https://hephio.com&#10;mailto:hello@example.com&#10;tel:+15125551212"
+        ></textarea>
+      </div>
+
+      <div class="tool-qr-workspace">
+
+        <!-- LEFT SIDE -->
+        <div class="tool-qr-left">
+
+          <div class="tool-qr-controls">
+
+            <div class="tool-qr-control-card">
+              <label class="tool-form-label" for="sizeSelect">Size</label>
+              <select id="sizeSelect" class="tool-form-select">
+                <option value="256">256 × 256</option>
+                <option value="512" selected>512 × 512</option>
+                <option value="1024">1024 × 1024</option>
+              </select>
+            </div>
+
+            <div class="tool-qr-control-card">
+              <label class="tool-form-label" for="formatSelect">Format</label>
+              <select id="formatSelect" class="tool-form-select">
+                <option value="png" selected>PNG</option>
+                <option value="svg">SVG</option>
+              </select>
+            </div>
+
+            <div class="tool-qr-control-card">
+              <label class="tool-form-label" for="marginSelect">Margin</label>
+              <select id="marginSelect" class="tool-form-select">
+                <option value="0">None</option>
+                <option value="8" selected>Small</option>
+                <option value="16">Medium</option>
+                <option value="24">Large</option>
+              </select>
+            </div>
+
+            <div class="tool-qr-control-card">
+              <label class="tool-form-label" for="errorCorrectionSelect">Error Correction</label>
+              <select id="errorCorrectionSelect" class="tool-form-select">
+                <option value="L">Low (L)</option>
+                <option value="M" selected>Medium (M)</option>
+                <option value="Q">Quartile (Q)</option>
+                <option value="H">High (H)</option>
+              </select>
+            </div>
+
+          </div>
+
+          <!-- BOTTOM BLOCK (aligned with preview bottom) -->
+          <div class="tool-qr-bottom">
+
+            <div class="tool-action-row tool-action-row-qr">
+              <button id="downloadBtn" class="tool-btn-primary" type="button" disabled>
+                Download QR Code
+              </button>
+
+              <button id="copyBtn" class="tool-btn-secondary" type="button" disabled>
+                Copy Image
+              </button>
+
+              <button id="clearBtn" class="tool-btn-secondary" type="button">
+                Clear
+              </button>
+            </div>
+
+            <div id="status" class="tool-status-message"></div>
+
+            <p class="tool-metadata-note">
+              PNG is best for general use. SVG is ideal when you need a crisp,
+              scalable file for print or design work.
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="tool-qr-preview-panel">
+
+          <div class="tool-result-header">
+            <div>
+              <div class="tool-result-title">Preview</div>
+              <div class="tool-result-sub" id="previewMeta">PNG • 512 × 512</div>
+            </div>
+          </div>
+
+          <div class="tool-qr-preview-wrap">
+
+            <div id="previewEmpty" class="tool-qr-preview-empty">
+              Your QR code preview will appear here after you enter text above.
+            </div>
+
+            <div id="qrPreview" class="tool-qr-preview hidden" aria-live="polite"></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script src="/analytics.js"></script>
+<script src="/favicon.js"></script>
+<script src="/header.js"></script>
+<script src="/footer.js"></script>
+<script src="/tool-layout.js"></script>
+<script src="/assets/vendor/qr-code-styling/qr-code-styling.js"></script>
+<script src="./script.js"></script>
+
+</body>
+</html>
