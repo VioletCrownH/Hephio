@@ -26,7 +26,9 @@ let currentThumbUrl = null;
 /* ---------------- Upload wiring ---------------- */
 
 uploadZone.addEventListener("click", (e) => {
-  if (e.target !== chooseDifferent) fileInput.click();
+  if (e.target !== chooseDifferent) {
+    fileInput.click();
+  }
 });
 
 uploadZone.addEventListener("keydown", (e) => {
@@ -36,10 +38,27 @@ uploadZone.addEventListener("keydown", (e) => {
   }
 });
 
+uploadZone.addEventListener("dragenter", (e) => {
+  e.preventDefault();
+  uploadZone.classList.add("drag-over");
+});
+
+uploadZone.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  uploadZone.classList.add("drag-over");
+});
+
+uploadZone.addEventListener("dragleave", () => {
+  uploadZone.classList.remove("drag-over");
+});
+
 uploadZone.addEventListener("drop", async (e) => {
   e.preventDefault();
+  uploadZone.classList.remove("drag-over");
+
   const file = e.dataTransfer?.files?.[0] ?? null;
   await loadFile(file);
+  fileInput.value = "";
 });
 
 fileInput.addEventListener("change", async (e) => {
@@ -61,30 +80,22 @@ qualitySlider.addEventListener("input", () => {
   clearStatus();
 });
 
+formatSelect.addEventListener("change", () => {
+  updateEstimate();
+  clearStatus();
+});
+
 /* ---------------- Action ---------------- */
 
 compressBtn.addEventListener("click", async () => {
   if (!currentFile || !currentImage) return;
 
-  const isIOS = isIOSDevice();
-  let previewWindow = null;
-
   try {
-    // OPEN WINDOW IMMEDIATELY (critical for iPhone)
-    if (isIOS) {
-      previewWindow = window.open("", "_blank");
-      if (!previewWindow) throw new Error("Popup blocked");
-
-      previewWindow.document.write(`
-        <html>
-          <body style="background:#000;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;">
-            Preparing image...
-          </body>
-        </html>
-      `);
-    }
-
     setBusy(true);
+    setStatus("Compressing image...");
+
+    const mimeType = getOutputMimeType();
+    const quality = Number(qualitySlider.value) / 100;
 
     const canvas = document.createElement("canvas");
     canvas.width = currentImage.width;
@@ -95,19 +106,16 @@ compressBtn.addEventListener("click", async () => {
 
     const blob = await canvasToBlob(
       canvas,
-      getOutputMimeType(),
-      Number(qualitySlider.value) / 100
+      mimeType,
+      mimeType === "image/png" ? undefined : quality
     );
 
-    const filename = makeOutputName(currentFile.name, getOutputMimeType());
+    const filename = makeOutputName(currentFile.name, mimeType);
+    downloadBlob(filename, blob);
 
-    if (isIOS) {
-      showImagePreview(previewWindow, blob, filename);
-    } else {
-      downloadBlob(filename, blob);
-    }
-
-    setSuccess("Done.");
+    setSuccess(
+      `Done. ${formatBytes(currentFile.size)} → ${formatBytes(blob.size)}`
+    );
     updateEstimate(blob.size);
   } catch (err) {
     console.error(err);
@@ -121,60 +129,124 @@ compressBtn.addEventListener("click", async () => {
 
 async function loadFile(file) {
   resetUI();
+
   if (!file) return;
 
+  if (!["image/jpeg", "image/png"].includes(file.type)) {
+    setError("Please upload a JPG or PNG image.");
+    return;
+  }
+
   currentFile = file;
-  currentImage = await fileToImage(file);
 
-  uploadPrompt.classList.add("hidden");
-  fileSummary.classList.remove("hidden");
-  settingsPanel.classList.remove("hidden");
+  try {
+    const img = await fileToImage(file);
+    currentImage = img;
 
-  fileNameEl.textContent = file.name;
-  fileSizeEl.textContent = formatBytes(file.size);
-  fileDimsEl.textContent = `${currentImage.width} × ${currentImage.height}`;
+    uploadPrompt.classList.add("hidden");
+    fileSummary.classList.remove("hidden");
+    uploadZone.classList.add("has-file");
+    settingsPanel.classList.remove("hidden");
 
-  currentThumbUrl = URL.createObjectURL(file);
-  thumb.src = currentThumbUrl;
+    fileNameEl.textContent = file.name;
+    fileSizeEl.textContent = formatBytes(file.size);
+    fileDimsEl.textContent = `${img.width} × ${img.height}`;
 
-  compressBtn.disabled = false;
+    currentThumbUrl = URL.createObjectURL(file);
+    thumb.src = currentThumbUrl;
+
+    compressBtn.disabled = false;
+    updateEstimate();
+  } catch (err) {
+    console.error(err);
+    setError("Something went wrong while reading this image.");
+  }
+}
+
+function resetUI() {
+  currentFile = null;
+  currentImage = null;
+
+  uploadPrompt.classList.remove("hidden");
+  fileSummary.classList.add("hidden");
+  uploadZone.classList.remove("has-file");
+  settingsPanel.classList.add("hidden");
+
+  formatSelect.value = "keep";
+  qualitySlider.value = "85";
+  qualityValue.textContent = "85%";
+  compressBtn.disabled = true;
+
+  estimateBox.classList.add("hidden");
+  estimateValue.textContent = "—";
+
+  if (currentThumbUrl) {
+    URL.revokeObjectURL(currentThumbUrl);
+    currentThumbUrl = null;
+  }
+
+  thumb.removeAttribute("src");
+  clearStatus();
+}
+
+function setBusy(busy) {
+  compressBtn.disabled = busy || !currentFile;
+  formatSelect.disabled = busy;
+  qualitySlider.disabled = busy;
+}
+
+function getOutputMimeType() {
+  if (!currentFile) return "image/jpeg";
+
+  const selected = formatSelect.value;
+  if (selected === "jpeg") return "image/jpeg";
+  if (selected === "png") return "image/png";
+  return currentFile.type === "image/png" ? "image/png" : "image/jpeg";
+}
+
+function makeOutputName(originalName, mimeType) {
+  const base = originalName.replace(/\.[^.]+$/, "");
+  const ext = mimeType === "image/png" ? "png" : "jpg";
+  return `${base}-compressed.${ext}`;
+}
+
+/* ---------------- Estimate ---------------- */
+
+async function updateEstimate(forcedSize = null) {
+  if (!currentFile || !currentImage) return;
+
+  if (forcedSize !== null) {
+    estimateBox.classList.remove("hidden");
+    estimateValue.textContent = formatBytes(forcedSize);
+    return;
+  }
+
+  try {
+    const mimeType = getOutputMimeType();
+    const quality = Number(qualitySlider.value) / 100;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = currentImage.width;
+    canvas.height = currentImage.height;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(currentImage, 0, 0);
+
+    const blob = await canvasToBlob(
+      canvas,
+      mimeType,
+      mimeType === "image/png" ? undefined : quality
+    );
+
+    estimateBox.classList.remove("hidden");
+    estimateValue.textContent = formatBytes(blob.size);
+  } catch {
+    estimateBox.classList.add("hidden");
+    estimateValue.textContent = "—";
+  }
 }
 
 /* ---------------- Helpers ---------------- */
-
-function isIOSDevice() {
-  return /iPhone|iPad|iPod/.test(navigator.userAgent);
-}
-
-function showImagePreview(win, blob, filename) {
-  const url = URL.createObjectURL(blob);
-
-  win.document.open();
-  win.document.write(`
-    <html>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <style>
-          body { margin:0; background:#000; color:#fff; font-family:sans-serif; }
-          .banner { padding:12px; text-align:center; background:#111; }
-          img { width:100%; }
-        </style>
-      </head>
-      <body>
-        <div class="banner">Press and hold the image to save</div>
-        <img src="${url}" />
-      </body>
-    </html>
-  `);
-}
-
-function downloadBlob(filename, blob) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-}
 
 function fileToImage(file) {
   return new Promise((resolve, reject) => {
@@ -186,50 +258,68 @@ function fileToImage(file) {
       resolve(img);
     };
 
-    img.onerror = reject;
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Image decode failed"));
+    };
+
     img.src = url;
   });
 }
 
 function canvasToBlob(canvas, type, quality) {
-  return new Promise((resolve) => {
-    canvas.toBlob(resolve, type, quality);
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) reject(new Error("toBlob returned null"));
+      else resolve(blob);
+    }, type, quality);
   });
 }
 
-function getOutputMimeType() {
-  return currentFile.type === "image/png" ? "image/png" : "image/jpeg";
-}
+function downloadBlob(filename, blob) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
 
-function makeOutputName(name) {
-  return name.replace(/\.[^.]+$/, "") + "-compressed.jpg";
+  a.href = url;
+  a.download = filename;
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
 }
 
 function formatBytes(bytes) {
-  if (bytes < 1024) return bytes + " B";
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-  return (bytes / 1024 / 1024).toFixed(2) + " MB";
+  if (bytes < 1024) return `${bytes} B`;
+  const kb = bytes / 1024;
+  if (kb < 1024) return `${kb.toFixed(1)} KB`;
+  const mb = kb / 1024;
+  return `${mb.toFixed(2)} MB`;
 }
 
-/* ---------------- UI ---------------- */
+/* ---------------- Status ---------------- */
 
-function setBusy(b) {
-  compressBtn.disabled = b;
+function clearStatus() {
+  statusEl.textContent = "";
+  statusEl.className = "tool-status-message";
+}
+
+function setStatus(msg) {
+  statusEl.textContent = msg;
+  statusEl.className = "tool-status-message";
 }
 
 function setSuccess(msg) {
   statusEl.textContent = msg;
+  statusEl.className = "tool-status-success";
 }
 
 function setError(msg) {
   statusEl.textContent = msg;
+  statusEl.className = "tool-status-error";
 }
 
-function clearStatus() {
-  statusEl.textContent = "";
-}
+/* ---------------- Init ---------------- */
 
-function resetUI() {
-  compressBtn.disabled = true;
-  clearStatus();
-}
+resetUI();
