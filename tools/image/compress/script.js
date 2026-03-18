@@ -23,6 +23,9 @@ let currentFile = null;
 let currentImage = null;
 let currentThumbUrl = null;
 
+const IOS_COMPRESS_LABEL = "Compress & Save Image";
+const DEFAULT_COMPRESS_LABEL = "Compress Image";
+
 /* ---------------- Upload wiring ---------------- */
 
 uploadZone.addEventListener("click", (e) => {
@@ -92,7 +95,7 @@ compressBtn.addEventListener("click", async () => {
 
   try {
     setBusy(true);
-    setStatus("Compressing image...");
+    setStatus(isIOSDevice() ? "Preparing image..." : "Compressing image...");
 
     const mimeType = getOutputMimeType();
     const quality = Number(qualitySlider.value) / 100;
@@ -102,6 +105,10 @@ compressBtn.addEventListener("click", async () => {
     canvas.height = currentImage.height;
 
     const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      throw new Error("Canvas context unavailable");
+    }
+
     ctx.drawImage(currentImage, 0, 0);
 
     const blob = await canvasToBlob(
@@ -111,11 +118,16 @@ compressBtn.addEventListener("click", async () => {
     );
 
     const filename = makeOutputName(currentFile.name, mimeType);
-    downloadBlob(filename, blob);
+    saveImageOutput(filename, blob);
 
-    setSuccess(
-      `Done. ${formatBytes(currentFile.size)} → ${formatBytes(blob.size)}`
-    );
+    if (isIOSDevice()) {
+      setSuccess("Opened image. Press and hold it to save to Photos.");
+    } else {
+      setSuccess(
+        `Done. ${formatBytes(currentFile.size)} → ${formatBytes(blob.size)}`
+      );
+    }
+
     updateEstimate(blob.size);
   } catch (err) {
     console.error(err);
@@ -156,6 +168,7 @@ async function loadFile(file) {
     thumb.src = currentThumbUrl;
 
     compressBtn.disabled = false;
+    updatePrimaryActionLabel();
     updateEstimate();
   } catch (err) {
     console.error(err);
@@ -186,6 +199,7 @@ function resetUI() {
   }
 
   thumb.removeAttribute("src");
+  updatePrimaryActionLabel();
   clearStatus();
 }
 
@@ -230,6 +244,10 @@ async function updateEstimate(forcedSize = null) {
     canvas.height = currentImage.height;
 
     const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      throw new Error("Canvas context unavailable");
+    }
+
     ctx.drawImage(currentImage, 0, 0);
 
     const blob = await canvasToBlob(
@@ -276,6 +294,15 @@ function canvasToBlob(canvas, type, quality) {
   });
 }
 
+function saveImageOutput(filename, blob) {
+  if (isIOSDevice()) {
+    openImagePreviewForIOS(blob, filename);
+    return;
+  }
+
+  downloadBlob(filename, blob);
+}
+
 function downloadBlob(filename, blob) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -287,7 +314,118 @@ function downloadBlob(filename, blob) {
   a.click();
   a.remove();
 
-  URL.revokeObjectURL(url);
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+  }, 1000);
+}
+
+function openImagePreviewForIOS(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const previewWindow = window.open("", "_blank");
+
+  if (!previewWindow) {
+    URL.revokeObjectURL(url);
+    throw new Error("Preview window blocked");
+  }
+
+  const safeTitle = escapeHtml(filename);
+
+  previewWindow.document.open();
+  previewWindow.document.write(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>${safeTitle}</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .save-banner {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 12px;
+      background: rgba(17, 17, 17, 0.96);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .image-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      background: #000;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="save-banner">Press and hold the image below to save it to Photos.</div>
+  <div class="image-wrap">
+    <img src="${url}" alt="${safeTitle}" />
+  </div>
+</body>
+</html>`);
+  previewWindow.document.close();
+
+  previewWindow.addEventListener("beforeunload", () => {
+    URL.revokeObjectURL(url);
+  });
+}
+
+function isIOSDevice() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
+
+function updatePrimaryActionLabel() {
+  compressBtn.textContent = isIOSDevice()
+    ? IOS_COMPRESS_LABEL
+    : DEFAULT_COMPRESS_LABEL;
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (char) => {
+    switch (char) {
+      case "&":
+        return "&amp;";
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case '"':
+        return "&quot;";
+      case "'":
+        return "&#39;";
+      default:
+        return char;
+    }
+  });
 }
 
 function formatBytes(bytes) {
@@ -322,4 +460,5 @@ function setError(msg) {
 
 /* ---------------- Init ---------------- */
 
+updatePrimaryActionLabel();
 resetUI();
