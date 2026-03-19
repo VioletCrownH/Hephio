@@ -5,7 +5,7 @@
 
 (function () {
 
-  const GA_ID = "G-XXXXXXXXXX";
+  const GA_ID = "G-TJREZE00WQ";
 
   // Create global dataLayer
   window.dataLayer = window.dataLayer || [];
