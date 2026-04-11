@@ -454,3 +454,61 @@ body {
     font-size: 3.5rem;
   }
 }
+
+/* ── SEO Content Block ───────────────────────────────────── */
+.tool-description {
+  max-width: 760px;
+  margin: 5rem auto 2rem;  /* was 3rem, bump to 5rem for more breathing room */
+  padding: 0 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #444;
+  border-top: 5px solid #d6dee8;  /* subtle divider line */
+  padding-top: 2rem;              /* space between line and heading */
+}
+
+.tool-description h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+}
+
+.tool-description h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.tool-description h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #333;
+  margin: 1rem 0 0.25rem;
+}
+
+.tool-description p {
+  margin-bottom: 0.85rem;
+  color: #555;
+}
+
+.tool-description ul {
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.tool-description ul li {
+  margin-bottom: 0.4rem;
+  color: #555;
+}
+
+.tool-features,
+.tool-faq {
+  margin-top: 1.5rem;
+}
+
+.faq-item {
+  margin-bottom: 1.25rem;
+}
+/* ──────────────────────────────────────────────────────────── */
