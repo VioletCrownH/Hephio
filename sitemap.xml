@@ -2,178 +2,178 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://hephio.com/</loc>
+    <loc>https://www.hephio.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://hephio.com/about/</loc>
+    <loc>https://www.hephio.com/about/</loc>
     <changefreq>yearly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/privacy/</loc>
+    <loc>https://www.hephio.com/privacy/</loc>
     <changefreq>yearly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/terms/</loc>
+    <loc>https://www.hephio.com/terms/</loc>
     <changefreq>yearly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/opensource/</loc>
+    <loc>https://www.hephio.com/opensource/</loc>
     <changefreq>yearly</changefreq>
   </url>
 
   <!-- File Tools -->
 
   <url>
-    <loc>https://hephio.com/tools/file/base64/</loc>
+    <loc>https://www.hephio.com/tools/file/base64/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
    <!-- Batch Rename placeholder -->
 
    <url>
-    <loc>https://hephio.com/tools/file/hash/</loc>
+    <loc>https://www.hephio.com/tools/file/hash/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
  <url>
-    <loc>https://hephio.com/tools/file/qr/</loc>
+    <loc>https://www.hephio.com/tools/file/qr/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/tools/file/urlencoder/</loc>
+    <loc>https://www.hephio.com/tools/file/urlencoder/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
    <url>
-    <loc>https://hephio.com/tools/file/uuid/</loc>
+    <loc>https://www.hephio.com/tools/file/uuid/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
  <url>
-    <loc>https://hephio.com/tools/file/zip/</loc>
+    <loc>https://www.hephio.com/tools/file/zip/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <!-- Image Tools -->
 
   <url>
-    <loc>https://hephio.com/tools/image/compress/</loc>
+    <loc>https://www.hephio.com/tools/image/compress/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/tools/image/convert/</loc>
+    <loc>https://www.hephio.com/tools/image/convert/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/tools/image/croprotate/</loc>
+    <loc>https://www.hephio.com/tools/image/croprotate/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/tools/image/info/</loc>
+    <loc>https://www.hephio.com/tools/image/info/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
     <url>
-    <loc>https://hephio.com/tools/image/metadata/</loc>
+    <loc>https://www.hephio.com/tools/image/metadata/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
     <url>
-    <loc>https://hephio.com/tools/image/resize/</loc>
+    <loc>https://www.hephio.com/tools/image/resize/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <!-- PDF Tools -->
 
   <url>
-    <loc>https://hephio.com/tools/pdf/convert/</loc>
+    <loc>https://www.hephio.com/tools/pdf/convert/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/tools/pdf/extract/</loc>
+    <loc>https://www.hephio.com/tools/pdf/extract/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
     <url>
-    <loc>https://hephio.com/tools/pdf/images-to-pdf/</loc>
+    <loc>https://www.hephio.com/tools/pdf/images-to-pdf/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
     <url>
-    <loc>https://hephio.com/tools/pdf/merge/</loc>
+    <loc>https://www.hephio.com/tools/pdf/merge/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
     <url>
-    <loc>https://hephio.com/tools/pdf/protect/</loc>
+    <loc>https://www.hephio.com/tools/pdf/protect/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
     <url>
-    <loc>https://hephio.com/tools/pdf/rearrange/</loc>
+    <loc>https://www.hephio.com/tools/pdf/rearrange/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
     <url>
-    <loc>https://hephio.com/tools/pdf/rotate/</loc>
+    <loc>https://www.hephio.com/tools/pdf/rotate/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
     <url>
-    <loc>https://hephio.com/tools/pdf/split/</loc>
+    <loc>https://www.hephio.com/tools/pdf/split/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <!-- Text Tools -->
 
   <url>
-    <loc>https://hephio.com/tools/text/changecase/</loc>
+    <loc>https://www.hephio.com/tools/text/changecase/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/tools/text/cleanup/</loc>
+    <loc>https://www.hephio.com/tools/text/cleanup/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/tools/text/compare/</loc>
+    <loc>https://wwww.hephio.com/tools/text/compare/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
     <url>
-    <loc>https://hephio.com/tools/text/count/</loc>
+    <loc>https://www.hephio.com/tools/text/count/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/tools/text/extract/</loc>
+    <loc>https://www.hephio.com/tools/text/extract/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/tools/text/format/</loc>
+    <loc>https://www.hephio.com/tools/text/format/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/tools/text/password/</loc>
+    <loc>https://www.hephio.com/tools/text/password/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://hephio.com/tools/text/sort/</loc>
+    <loc>https://www.hephio.com/tools/text/sort/</loc>
     <changefreq>monthly</changefreq>
   </url>
 
