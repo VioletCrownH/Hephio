@@ -60,7 +60,7 @@
           <a href="/tools/file/qr/" class="dropdown-item">QR Codes</a>
           <a href="/tools/file/base64/" class="dropdown-item">Base64</a>
           <a href="/tools/file/uuid/" class="dropdown-item">UUID Generator</a>
-          <a href="/tools/file/URLEncoder/" class="dropdown-item">URL Encoder / Decoder</a>
+          <a href="/tools/file/urlencoder/" class="dropdown-item">URL Encoder / Decoder</a>
           <a href="/tools/file/hash/" class="dropdown-item">File Hash</a>
         </div>
 
